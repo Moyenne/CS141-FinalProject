@@ -18,7 +18,7 @@ public class Grid implements Serializable
 	 */
 	private GridObject[][] grid = new GridObject[9][9];
 	
-	private GridObject[] enemies = new GridObject[6];
+	private Enemy[] enemies = new Enemy[6];
 	
 	/**
 	 * The main player character. Storing it here gives the Grid and Engine classes easy
@@ -112,7 +112,7 @@ public class Grid implements Serializable
 				else
 				{
 					grid[row][col] = new Enemy(row, col);
-					enemies[numOfEnemies] = grid[row][col];
+					enemies[numOfEnemies] = new Enemy(row, col);
 					numOfEnemies++;
 				}
 			}
@@ -129,7 +129,7 @@ public class Grid implements Serializable
 				else
 				{
 					grid[row][col] = new Enemy(row, col);
-					enemies[numOfEnemies] = grid[row][col];
+					enemies[numOfEnemies] = new Enemy(row, col);
 					numOfEnemies++;
 				}
 			}
@@ -193,6 +193,16 @@ public class Grid implements Serializable
 		}
 	}
 	
+	public Enemy[] getEnemyList()
+	{
+		return enemies;
+	}
+	
+	public Enemy getEnemy(int enemyNumber)
+	{
+		return enemies[enemyNumber];
+	}
+	
 	/**
 	 * A convenient method that allows the user to add a specific GridObject to a specific
 	 * location on the grid.
@@ -221,26 +231,20 @@ public class Grid implements Serializable
 	}
 	
 	/**
-	 * A convenient method that swaps two spots on the grid. The GridObject in {@code currentRow}, {@code currentCol}
-	 * will now be placed in the {@code newRow}, {@code newCol} on the grid, and the GridObject being replaced will
-	 * now be in the old spot: {@code currentRow}, {@code currentCol}.
-	 * <p>
-	 * Note that this method is solely for debugging purposes as it will break the format of the grid when used without
-	 * thought of what GridObjects are being swapped.
+	 * A convenient method that allows the user to move a GridObject from a specific
+	 * location on the grid to another location, assuming there is a GridObject at the
+	 * initial location.
 	 */
 	public void moveGridObject(int currentRow, int currentCol, int newRow, int newCol)
 	{
-		GridObject temp = grid[newRow][newCol];						// temp will preserve the data in the new spot
-		grid[newRow][newCol] = grid[currentRow][currentCol];		// the new spot will not point to the object in the current spot
-		grid[currentRow][currentCol] = temp;						// and then the old spot will point to what is preserved in temp
-																	// essentially swapping the two places on the grid
-		
-		temp.changePosition(currentRow, currentCol);				// The code to the left properly changes the two GridObject's row
-		grid[newRow][newCol].changePosition(newRow, newCol);		// and col properties.
-																	
+		GridObject temp = grid[newRow][newCol];
+		grid[newRow][newCol] = grid[currentRow][currentCol];
+		grid[newRow][newCol].changePosition(newRow, newCol);
+		grid[currentRow][currentCol] = temp;
+		grid[currentRow][currentCol].changePosition(currentRow, currentCol);
 	}
 	
-		public void movePlayer(int currentRow, int currentCol, int newRow, int newCol)
+	public void movePlayer(int currentRow, int currentCol, int newRow, int newCol)
 	{
 		GridObject temp = grid[newRow][newCol];
 		grid[newRow][newCol] = grid[currentRow][currentCol];
@@ -268,7 +272,7 @@ public class Grid implements Serializable
 					if(grid[obj.getRow()][obj.getColumn()].isAnItem())
 					{
 						grid[newRow][newCol].storeObject(grid[obj.getRow()][obj.getColumn()]);
-						grid[obj.getRow()][obj.getColumn()] = null;
+						grid[obj.getRow()][obj.getColumn()] = new GridObject(obj.getRow(), obj.getColumn());
 					}
 				}
 			}
