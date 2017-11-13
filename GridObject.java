@@ -10,6 +10,8 @@ import java.io.Serializable;
  */
 public class GridObject implements Serializable
 {
+	private GridObject storedObj = null;
+	
 	/**
 	 * An int value that tells a GridObject's vertical location on the grid. Another way
 	 * of looking at it: the y value on a Cartesian plane.
@@ -59,6 +61,33 @@ public class GridObject implements Serializable
 		this.row = row;
 		isVisible = false;
 		mark = ' ';
+	}
+	
+		public GridObject getStored()
+	{
+		return storedObj;
+	}
+	
+	public void storeObject(GridObject passOver)
+	{
+		storedObj = passOver;
+	}
+	
+	public void removeStored()
+	{
+		storedObj = null;
+	}
+	
+	public boolean isStorageEmpty()
+	{
+		if(storedObj == null)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
