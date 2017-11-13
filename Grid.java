@@ -3,6 +3,8 @@ package edu.cpp.cs.cs141.FinalProject;
 import java.io.Serializable;
 import java.util.Random;
 
+import edu.cpp.cs.cs141.FinalProject.GridObject.ObjectType;
+
 /**
  * This class represents the visual grid that stores all GridObjects needed to play.
  * This class stores their locations, can change their locations, and sets up the initial
@@ -21,6 +23,10 @@ public class Grid implements Serializable
 	 * access to the Player's attributes.
 	 */
 	private Player player;
+	
+	private int winRoom;
+	
+	private boolean debugOn = false;
 	
 	/**
 	 * The main constructor for the class, determining all initial conditions by calling
@@ -42,6 +48,11 @@ public class Grid implements Serializable
 		roomSetup();
 		enemySetup();
 		itemSetup();
+		
+		for(int row = 0; row < 9; row++)
+			for(int col = 0; col < 9; col++)
+				if(grid[row][col] == null)
+					grid[row][col] = new GridObject(row, col);
 	}
 
 	/**
@@ -60,8 +71,8 @@ public class Grid implements Serializable
 		Room room7 = new Room(7, 7, 1); temp[6] = room7;
 		Room room8 = new Room(8, 7, 4); temp[7] = room8;
 		Room room9 = new Room(9, 7, 7); temp[8] = room9;
-		int x = new Random().nextInt(9);
-		temp[x].placeBriefcase();
+		winRoom = new Random().nextInt(9);
+		temp[winRoom].placeBriefcase();
 		addGridObject(temp[0], 1, 1);
 		addGridObject(temp[1], 1, 4);
 		addGridObject(temp[2], 1, 7);
@@ -71,6 +82,8 @@ public class Grid implements Serializable
 		addGridObject(temp[6], 7, 1);
 		addGridObject(temp[7], 7, 4);
 		addGridObject(temp[8], 7, 7);
+		
+		
 	}
 	
 	/**
@@ -79,34 +92,45 @@ public class Grid implements Serializable
 	 */
 	private void enemySetup()
 	{
-		for(int x = 0; x < 6; x++)
-		{
-			Enemy enemy = new Enemy(0,0);
-			boolean positionGood = false;
-			while(!positionGood)
+		int row;
+		int col;
+		int numOfEnemies = 0;
+		Random rng = new Random();
+		
+		int n = rng.nextInt(2);						// This divides the possibility of the enemy being either within only the first six rows
+		if(n == 0)									// or within only the last 6 columns, thus always being at least 3 squares away from the
+		{											// player. When n == 0, the enemy will only spawn in a row < 6, when n == 1, the enemy
+			while(numOfEnemies < 6)					// will only spawn in a column >= 3.
 			{
-				int col = new Random().nextInt(9);
-				int row = new Random().nextInt(9);
-				int yes = 6+3;
-				if(getGridObject(col, row) == null)
-				{
-					
-					if(col >= (player.getColumn() - 3) && row <= (player.getRow() + 3))
-					{
-						positionGood = false;
-					}
-					else
-					{
-						positionGood = true;
-						addGridObject(enemy, col, row);
-					}
-				}
+				row = rng.nextInt(6);
+				col = rng.nextInt(9);
+				
+				if(grid[row][col] != null)
+					continue;
 				else
 				{
-					positionGood = false;
+					grid[row][col] = new Enemy(row, col);
+					numOfEnemies++;
 				}
 			}
 		}
+		else
+		{
+			while(numOfEnemies < 6)
+			{
+				row = rng.nextInt(9);
+				col = rng.nextInt(6) + 3;
+				
+				if(grid[row][col] != null)
+					continue;
+				else
+				{
+					grid[row][col] = new Enemy(row, col);
+					numOfEnemies++;
+				}
+			}
+		}
+		
 	}
 
 	/**
@@ -121,10 +145,10 @@ public class Grid implements Serializable
 		{
 			int col = new Random().nextInt(9);
 			int row = new Random().nextInt(9);
-			if(getGridObject(col, row) == null)
+			if(getGridObject(row, col) == null)
 			{
 				positionGood = true;
-				addGridObject(bullet, col, row);
+				addGridObject(bullet, row, col);
 			}
 			else
 			{
@@ -137,10 +161,10 @@ public class Grid implements Serializable
 		{
 			int col = new Random().nextInt(9);
 			int row = new Random().nextInt(9);
-			if(getGridObject(col, row) == null)
+			if(getGridObject(row, col) == null)
 			{
 				positionGood = true;
-				addGridObject(radar, col, row);
+				addGridObject(radar, row, col);
 			}
 			else
 			{
@@ -153,10 +177,10 @@ public class Grid implements Serializable
 		{
 			int col = new Random().nextInt(9);
 			int row = new Random().nextInt(9);
-			if(getGridObject(col, row) == null)
+			if(getGridObject(row, col) == null)
 			{
 				positionGood = true;
-				addGridObject(star, col, row);
+				addGridObject(star, row, col);
 			}
 			else
 			{
@@ -169,28 +193,27 @@ public class Grid implements Serializable
 	 * A convenient method that allows the user to add a specific GridObject to a specific
 	 * location on the grid.
 	 */
-	public void addGridObject(GridObject gridObject, int col, int row)
+	public void addGridObject(GridObject gridObject, int row, int col)
 	{
-		grid[col][row] = gridObject;
-		grid[col][row].changePosition(col, row);
+		grid[row][col] = gridObject;
 	}
 	
 	/**
 	 * A convenient method that allows the user to remove a GridObject from a specific
 	 * location on the grid, assuming there was a GridObject at that location.
 	 */
-	public void removeGridObject(int col, int row)
+	public void removeGridObject(int row, int col)
 	{
-		grid[col][row] = null;
+		grid[row][col] = null;
 	}
 	
 	/**
 	 * A convenient method that allows the user to access a GridObject from a specific
 	 * location on the grid, assuming there is a GridObject at that location.
 	 */
-	public GridObject getGridObject(int col, int row)
+	public GridObject getGridObject(int row, int col)
 	{
-		return grid[col][row];
+		return grid[row][col];
 	}
 	
 	/**
@@ -198,13 +221,13 @@ public class Grid implements Serializable
 	 * location on the grid to another location, assuming there is a GridObject at the
 	 * initial location.
 	 */
-	public void moveGridObject(int currentCol, int currentRow, int newCol, int newRow)
+	public void moveGridObject(int currentRow, int currentCol, int newRow, int newCol)
 	{
 		//if(grid[newXPos][newYPos] == null)
 		//{
-			grid[newCol][newRow] = grid[currentCol][currentRow];
-			grid[newCol][newRow].changePosition(newCol, newRow);
-			grid[currentCol][currentRow] = null;
+			grid[newRow][newCol] = grid[currentRow][currentCol];
+			grid[newRow][newCol].changePosition(newRow, newCol);
+			grid[currentRow][currentCol] = null;
 		//}
 	}
 	
@@ -217,67 +240,134 @@ public class Grid implements Serializable
 	}
 	
 	/**
-	 * A method that reads the current contents of the grid array, and, depending on
-	 * the contents each position, prints out a map of the grid detailing the location
-	 * of all GridObjects.
+	 * This method returns a string ready to be printed to the screen. 
+	 * 
+	 * @return a string containing the whole grid
 	 */
-	public void drawGrid()
+	public String getGrid()
 	{
-		System.out.println();
-		for(int x = 0; x < 9; x++)
+		/*
+		 * ***NOTE***
+		 * getGrid() still needs a way to implement the 'look' action of the player
+		 * so far it only sets the adjacent blocks visible to the player
+		 */
+		if(debugOn)
 		{
-			for(int y = 0; y < 9; y++)
+			for(int i = 0; i < 9; i++)
 			{
-				GridObject obj = grid[x][y];
-				if(obj == null && (x == player.getColumn() + 1) && (y == player.getRow()))
+				for(int j = 0; j < 9; j++)
 				{
-					System.out.print("[ ]");
-				}
-				else if(obj == null && (x == player.getColumn() - 1) && (y == player.getRow()))
-				{
-					System.out.print("[ ]");
-				}
-				else if(obj == null && (x == player.getColumn()) && (y == player.getRow() + 1))
-				{
-					System.out.print("[ ]");
-				}
-				else if(obj == null && (x == player.getColumn()) && (y == player.getRow() - 1))
-				{
-					System.out.print("[ ]");
-				}
-				else if(obj == null)
-				{
-					System.out.print("[X]");
-				}
-				else if(obj.isARoom())
-				{
-					System.out.print("[" + obj.getRoomNumber() + "]");
-				}
-				else if(obj.isAnItem())
-				{
-					if(obj.getType().equals("Bullet"))
-					{
-						System.out.print("[B]");
-					}
-					else if(obj.getType().equals("Invincibility"))
-					{
-						System.out.print("[I]");
-					}
-					else if(obj.getType().equals("Radar"))
-					{
-						System.out.print("[R]");
-					}
-				}
-				else if(obj.isAnEnemy())
-				{
-					System.out.print("[E]");
-				}
-				else if(obj.isAPlayer())
-				{
-					System.out.print("[P]");
+					grid[i][j].setVisibility(true);
 				}
 			}
-			System.out.println();
+		}
+		else
+		{
+			setAdjacentVisible();
+		}
+		String output = "";
+		for(int row = 0; row < 9; row++)
+		{
+			for(int col = 0; col < 9; col++)
+			{
+				if(debugOn && grid[row][col].isARoom() && (grid[row][col].getRoomNumber() == winRoom))
+				{
+					output = output.concat("[*]");
+				}
+				else
+				{
+					output = output.concat(grid[row][col].getMark());
+				}
+			}
+			output = output.concat("\n");
+		}
+		resetVisibility();
+		return output;
+	}
+	
+	public void setPositionVisibility(int row, int col)
+	{
+		grid[row][col].setVisibility(true);
+	}
+	
+	/**
+	 * This method sets the blocks adjacent to the player to be visible.
+	 * In other words, they simply do not appear on the grid as [X].
+	 */
+	private void setAdjacentVisible()
+	{
+		/* This if-else block determines if there are squares above and below the player square,
+		 * and handles the adjacent squares' visibility if they exist.
+		 */
+		if(player.getRow() == 0)
+			grid[player.getRow() + 1][player.getColumn()].setVisibility(true);
+		else if(player.getRow() == 8)
+			grid[player.getRow() - 1][player.getColumn()].setVisibility(true);
+		else
+		{
+			grid[player.getRow() - 1][player.getColumn()].setVisibility(true);
+			grid[player.getRow() + 1][player.getColumn()].setVisibility(true);
+		}
+		
+		/* This if-else block determines if there are squares to the left and to the right of the player square,
+		 * and handles the adjacent squares' visibility if they exist.
+		 */
+		if(player.getColumn() == 0)
+			grid[player.getRow()][player.getColumn() + 1].setVisibility(true);
+		else if(player.getColumn() == 8)
+			grid[player.getRow()][player.getColumn() - 1].setVisibility(true);
+		else
+		{
+			grid[player.getRow()][player.getColumn() - 1].setVisibility(true);
+			grid[player.getRow()][player.getColumn() + 1].setVisibility(true);
+		}
+	}
+
+	/**
+	 * This method resets the visibility of the empty squares that contain nothing in them to an
+	 * invisible state. This method is meant to be used by {@linkplain #getGrid()} in order to
+	 * reset the visibility of the squares, that were turned visible, before {@linkplain #getGrid()}
+	 * is called again, since the player square by that time will be different than before.
+	 */
+	private void resetVisibility()
+	{
+		// Goes through the grid and sets the DEFAULT squares' visibility to false.
+		// Note: not optimal, only 5 squares at most need to be reset, there should be a better way
+		for(int i = 0; i < 9; i++)
+		{
+			for(int j = 0; j < 9; j++)
+			{
+				if(grid[i][j].getObjectType() != ObjectType.ROOM || grid[i][j].getObjectType() != ObjectType.PLAYER)
+				{
+					grid[i][j].setVisibility(false);
+				}
+			}
+		}
+	}
+	
+	/*
+	 * This method is for debugging the grid. It shows every single entity within the game.
+	 * It essentially sets all squares in the grid to be visible to the player.
+	 * We should delete this once the whole project is finished.
+	 */
+	public String getGridDebug()
+	{
+		for(int i = 0; i < 9; i++)
+			for(int j = 0; j < 9; j++)
+				grid[i][j].setVisibility(true);
+		
+		return getGrid();
+	}
+	
+	public void toggleDebug()
+	{
+		if(debugOn)
+		{
+			debugOn = false;
+		}
+		else
+		{
+			debugOn = true;
 		}
 	}
 }
