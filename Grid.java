@@ -240,6 +240,19 @@ public class Grid implements Serializable
 																	
 	}
 	
+		public void movePlayer(int currentRow, int currentCol, int newRow, int newCol)
+	{
+		GridObject temp = grid[newRow][newCol];
+		grid[newRow][newCol] = grid[currentRow][currentCol];
+		grid[newRow][newCol].changePosition(newRow, newCol);
+		grid[currentRow][currentCol] = temp;
+		grid[currentRow][currentCol].changePosition(currentRow, currentCol);
+		if(grid[currentRow][currentCol].isAnItem())
+		{
+			grid[currentRow][currentCol] = new GridObject(currentRow, currentCol);
+		}
+	}
+	
 	public void moveEnemy(int enemyNumber, int newRow, int newCol)
 	{
 		for(GridObject[] sublist : grid)
