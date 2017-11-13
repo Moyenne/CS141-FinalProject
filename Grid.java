@@ -271,8 +271,26 @@ public class Grid implements Serializable
 					grid[obj.getRow()][obj.getColumn()] = temp;
 					if(grid[obj.getRow()][obj.getColumn()].isAnItem())
 					{
-						grid[newRow][newCol].storeObject(grid[obj.getRow()][obj.getColumn()]);
-						grid[obj.getRow()][obj.getColumn()] = new GridObject(obj.getRow(), obj.getColumn());
+						//grid[newRow][newCol].storeObject(grid[obj.getRow()][obj.getColumn()]);
+						//grid[obj.getRow()][obj.getColumn()] = new GridObject(obj.getRow(), obj.getColumn());
+						if(grid[obj.getRow()][obj.getColumn()].getType().equals("Bullet"))
+						{
+							grid[newRow][newCol].storeObject(grid[obj.getRow()][obj.getColumn()]);
+							items[0] = new Bullet(obj.getRow(), obj.getColumn());
+							grid[obj.getRow()][obj.getColumn()] = new GridObject(obj.getRow(), obj.getColumn());
+						}
+						else if(grid[obj.getRow()][obj.getColumn()].getType().equals("Radar"))
+						{
+							grid[newRow][newCol].storeObject(grid[obj.getRow()][obj.getColumn()]);
+							items[1] = new Radar(obj.getRow(), obj.getColumn());
+							grid[obj.getRow()][obj.getColumn()] = new GridObject(obj.getRow(), obj.getColumn());
+						}
+						else
+						{
+							grid[newRow][newCol].storeObject(grid[obj.getRow()][obj.getColumn()]);
+							items[2] = new Star(obj.getRow(), obj.getColumn());
+							grid[obj.getRow()][obj.getColumn()] = new GridObject(obj.getRow(), obj.getColumn());
+						}
 					}
 				}
 			}
