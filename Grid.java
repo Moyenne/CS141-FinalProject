@@ -18,6 +18,8 @@ public class Grid implements Serializable
 	 */
 	private GridObject[][] grid = new GridObject[9][9];
 	
+	private GridObject[] enemies = new GridObject[6];
+	
 	/**
 	 * The main player character. Storing it here gives the Grid and Engine classes easy
 	 * access to the Player's attributes.
@@ -110,6 +112,7 @@ public class Grid implements Serializable
 				else
 				{
 					grid[row][col] = new Enemy(row, col);
+					enemies[numOfEnemies] = grid[row][col];
 					numOfEnemies++;
 				}
 			}
@@ -126,6 +129,7 @@ public class Grid implements Serializable
 				else
 				{
 					grid[row][col] = new Enemy(row, col);
+					enemies[numOfEnemies] = grid[row][col];
 					numOfEnemies++;
 				}
 			}
@@ -234,6 +238,28 @@ public class Grid implements Serializable
 		temp.changePosition(currentRow, currentCol);				// The code to the left properly changes the two GridObject's row
 		grid[newRow][newCol].changePosition(newRow, newCol);		// and col properties.
 																	
+	}
+	
+	public void moveEnemy(int enemyNumber, int newRow, int newCol)
+	{
+		for(GridObject[] sublist : grid)
+		{
+			for(GridObject obj : sublist)
+			{
+				if(obj.getRow() == enemies[enemyNumber].getRow() && obj.getColumn() == enemies[enemyNumber].getColumn())
+				{
+					GridObject temp = grid[newRow][newCol];
+					grid[newRow][newCol] = grid[obj.getRow()][obj.getColumn()];
+					grid[newRow][newCol].changePosition(newRow, newCol);
+					grid[obj.getRow()][obj.getColumn()] = temp;
+					if(grid[obj.getRow()][obj.getColumn()].isAnItem())
+					{
+						grid[newRow][newCol].storeObject(grid[obj.getRow()][obj.getColumn()]);
+						grid[obj.getRow()][obj.getColumn()] = null;
+					}
+				}
+			}
+		}
 	}
 	
 	/**
