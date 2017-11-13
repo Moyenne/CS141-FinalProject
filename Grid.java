@@ -294,11 +294,6 @@ public class Grid implements Serializable
 	 */
 	public String getGrid()
 	{
-		/*
-		 * ***NOTE***
-		 * getGrid() still needs a way to implement the 'look' action of the player
-		 * so far it only sets the adjacent blocks visible to the player
-		 */
 		if(debugOn)
 		{
 			for(int i = 0; i < 9; i++)
@@ -385,7 +380,7 @@ public class Grid implements Serializable
 		{
 			for(int j = 0; j < 9; j++)
 			{
-				if(grid[i][j].getObjectType() != ObjectType.ROOM || grid[i][j].getObjectType() != ObjectType.PLAYER)
+				if(grid[i][j].getObjectType() != ObjectType.ROOM && grid[i][j].getObjectType() != ObjectType.PLAYER)
 				{
 					grid[i][j].setVisibility(false);
 				}
