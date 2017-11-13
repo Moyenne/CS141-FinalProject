@@ -115,14 +115,7 @@ public class Engine implements Serializable
 	 */
 	public boolean moveUp()
 	{
-		if(grid.getGridObject(grid.getPlayer().getColumn(), grid.getPlayer().getRow() + 1).isARoom())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return true;
 	}
 	
 	/**
@@ -286,5 +279,13 @@ public class Engine implements Serializable
 		gameOver = false;
 		victory = false;
 		isPlayerTurn = true;
+	}
+	
+	// This method returns the grid that is being used in this Engine class.
+	// It might serve a purpose for debug mode later on, but it does make
+	// the grid field being private redundant as any public class can call
+	// this method and modify the grid itself; an example of shallow copying
+	public Grid getGrid() {
+		return grid;
 	}
 }

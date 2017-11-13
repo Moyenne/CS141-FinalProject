@@ -217,18 +217,23 @@ public class Grid implements Serializable
 	}
 	
 	/**
-	 * A convenient method that allows the user to move a GridObject from a specific
-	 * location on the grid to another location, assuming there is a GridObject at the
-	 * initial location.
+	 * A convenient method that swaps two spots on the grid. The GridObject in {@code currentRow}, {@code currentCol}
+	 * will now be placed in the {@code newRow}, {@code newCol} on the grid, and the GridObject being replaced will
+	 * now be in the old spot: {@code currentRow}, {@code currentCol}.
+	 * <p>
+	 * Note that this method is solely for debugging purposes as it will break the format of the grid when used without
+	 * thought of what GridObjects are being swapped.
 	 */
 	public void moveGridObject(int currentRow, int currentCol, int newRow, int newCol)
 	{
-		//if(grid[newXPos][newYPos] == null)
-		//{
-			grid[newRow][newCol] = grid[currentRow][currentCol];
-			grid[newRow][newCol].changePosition(newRow, newCol);
-			grid[currentRow][currentCol] = null;
-		//}
+		GridObject temp = grid[newRow][newCol];						// temp will preserve the data in the new spot
+		grid[newRow][newCol] = grid[currentRow][currentCol];		// the new spot will not point to the object in the current spot
+		grid[currentRow][currentCol] = temp;						// and then the old spot will point to what is preserved in temp
+																	// essentially swapping the two places on the grid
+		
+		temp.changePosition(currentRow, currentCol);				// The code to the left properly changes the two GridObject's row
+		grid[newRow][newCol].changePosition(newRow, newCol);		// and col properties.
+																	
 	}
 	
 	/**
