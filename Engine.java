@@ -191,23 +191,48 @@ public class Engine implements Serializable
 		}
 	}
 	
-	/**
-	 * The hub look method, a method that accepts a String value as a parameter. Depending on the value of this
-	 * String, the player will be allowed to look in a certain direction. The corresponding direction calls a
-	 * specific method due to unique looking rules.
+		/**
+	 * This method implements the "look" action that can be performed by the player. It will properly
+	 * make the second square in the designated direction visible.
+	 * 
+	 * <p>Please use this method after determining if the direction desired is valid. For example, before
+	 * passing the argument "UP" use the method {@linkplain #lookUp()} and make sure it returns a true value,
+	 * indicating it is safe to look in the up direction.
+	 * 
+	 * <p>Do note that the {@code direction} parameter must be of one of these string values: "up", "right"
+	 * , "down", "left"; all being case-insensitive. Arguments with strings other than these four will have this
+	 * method do nothing.
+	 * @param direction Must be one of the following: "up", "right", "down", "left"; case-insensitive
 	 */
-	public boolean look(String input)
+	public void look(String direction)
 	{
-		return lookUp();
+		direction = direction.toLowerCase();
+		
+		switch(direction)
+		{
+		case "up":		grid.setPositionVisibility(grid.getPlayer().getRow() - 2, grid.getPlayer().getColumn());
+						break;
+		case "right":	grid.setPositionVisibility(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 2);
+						break;
+		case "down":	grid.setPositionVisibility(grid.getPlayer().getRow() + 2, grid.getPlayer().getColumn());
+						break;
+		case "left":	grid.setPositionVisibility(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 2);
+		}
 	}
 	
 	/**
 	 * A method that determines if a player is able to look upwards, according to specific looking rules.
 	 */
 	public boolean lookUp()
-	{
-		grid.setPositionVisibility(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 2);
-		return true;
+	{		
+		if(grid.getPlayer().getRow() < 2)
+			return false;
+		
+		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow() - 2, grid.getPlayer().getColumn());
+		if(targetSpot.isARoom())
+			return false;
+		else
+			return true;
 	}
 	
 	/**
@@ -215,7 +240,14 @@ public class Engine implements Serializable
 	 */
 	public boolean lookDown()
 	{
-		return true;
+		if(grid.getPlayer().getRow() > 6)
+			return false;
+		
+		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow() + 2, grid.getPlayer().getColumn());
+		if(targetSpot.isARoom())
+			return false;
+		else
+			return true;
 	}
 	
 	/**
@@ -223,7 +255,14 @@ public class Engine implements Serializable
 	 */
 	public boolean lookLeft()
 	{
-		return true;
+		if(grid.getPlayer().getColumn() < 2)
+			return false;
+		
+		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 2);
+		if(targetSpot.isARoom())
+			return false;
+		else
+			return true;
 	}
 	
 	/**
@@ -231,7 +270,14 @@ public class Engine implements Serializable
 	 */
 	public boolean lookRight()
 	{
-		return true;
+		if(grid.getPlayer().getColumn() > 6)
+			return false;
+		
+		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 2);
+		if(targetSpot.isARoom())
+			return false;
+		else
+			return true;
 	}
 	
 	/**
