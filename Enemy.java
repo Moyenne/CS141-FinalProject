@@ -9,11 +9,6 @@ import edu.cpp.cs.cs141.FinalProject.GridObject.ObjectType;
 public class Enemy extends GridObject
 {
 	/**
-	 * An Item value that allows Enemies to store Items, so that they may "pass through" them.
-	 */
-	private Item storedItem = null;
-	
-	/**
 	 * Is the Enemy alive?
 	 */
 	private boolean isAlive = true;
@@ -26,21 +21,6 @@ public class Enemy extends GridObject
 		super(row, col);
 		secret = ObjectType.ENEMY;
 		mark = 'E';
-	}
-	
-	public Item getItem()
-	{
-		return storedItem;
-	}
-	
-	public void storeItem(Item passOver)
-	{
-		storedItem = passOver;
-	}
-	
-	public void removeItem()
-	{
-		storedItem = null;
 	}
 	
 	/**
