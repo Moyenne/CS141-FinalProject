@@ -191,7 +191,7 @@ public class Engine implements Serializable
 		}
 	}
 	
-		/**
+	/**
 	 * This method implements the "look" action that can be performed by the player. It will properly
 	 * make the second square in the designated direction visible.
 	 * 
