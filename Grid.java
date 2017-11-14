@@ -271,42 +271,22 @@ public class Grid implements Serializable
 	
 	public void moveEnemy(int enemyNumber, int newRow, int newCol)
 	{
-		for(GridObject[] sublist : grid)
+		Enemy enemy = enemies[enemyNumber];
+		if(enemy.getStored() != null)
 		{
-			for(GridObject obj : sublist)
-			{
-				if(obj.getRow() == enemies[enemyNumber].getRow() && obj.getColumn() == enemies[enemyNumber].getColumn())
-				{
-					GridObject temp = grid[newRow][newCol];
-					grid[newRow][newCol] = grid[obj.getRow()][obj.getColumn()];
-					grid[newRow][newCol].changePosition(newRow, newCol);
-					grid[obj.getRow()][obj.getColumn()] = temp;
-					if(grid[obj.getRow()][obj.getColumn()].isAnItem())
-					{
-						//grid[newRow][newCol].storeObject(grid[obj.getRow()][obj.getColumn()]);
-						//grid[obj.getRow()][obj.getColumn()] = new GridObject(obj.getRow(), obj.getColumn());
-						if(grid[obj.getRow()][obj.getColumn()].getType().equals("Bullet"))
-						{
-							grid[newRow][newCol].storeObject(grid[obj.getRow()][obj.getColumn()]);
-							items[0] = new Bullet(obj.getRow(), obj.getColumn());
-							grid[obj.getRow()][obj.getColumn()] = new GridObject(obj.getRow(), obj.getColumn());
-						}
-						else if(grid[obj.getRow()][obj.getColumn()].getType().equals("Radar"))
-						{
-							grid[newRow][newCol].storeObject(grid[obj.getRow()][obj.getColumn()]);
-							items[1] = new Radar(obj.getRow(), obj.getColumn());
-							grid[obj.getRow()][obj.getColumn()] = new GridObject(obj.getRow(), obj.getColumn());
-						}
-						else
-						{
-							grid[newRow][newCol].storeObject(grid[obj.getRow()][obj.getColumn()]);
-							items[2] = new Star(obj.getRow(), obj.getColumn());
-							grid[obj.getRow()][obj.getColumn()] = new GridObject(obj.getRow(), obj.getColumn());
-						}
-					}
-				}
-			}
+			grid[newRow][newCol] = enemies[enemyNumber];
+			grid[enemy.getRow()][enemy.getColumn()] = enemy.getStored();
 		}
+		else
+		{
+			grid[enemy.getRow()][enemy.getColumn()] = new GridObject(enemy.getRow(),enemy.getColumn());
+		}
+		if(grid[newRow][newCol].isAnItem())
+		{
+			enemies[enemyNumber].storeObject(grid[newRow][newCol]);
+			grid[newRow][newCol] = enemies[enemyNumber];
+		}
+		enemy.changePosition(newRow, newCol);
 	}
 	
 	/**
