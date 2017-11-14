@@ -23,4 +23,10 @@ public class Radar extends Item
 		super("Radar", row, col);
 		mark = 'R';
 	}
+	
+	public void applyItemEffect(Player target)
+	{
+		if(!target.radarEnabled())
+			target.enableRadar();
+	}
 }
