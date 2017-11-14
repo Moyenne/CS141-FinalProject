@@ -118,20 +118,6 @@ public class Player extends GridObject
 	/**
 	 * Takes away the Player's bullet to shoot the gun.
 	 */
-	 /*
-	public boolean shoot()
-	{
-		if(hasBullet)
-		{
-			hasBullet = false;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	*/
 	
 	public void shoot()						// modified by Dongri
 	{
