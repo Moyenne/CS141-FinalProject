@@ -230,7 +230,14 @@ public class Grid implements Serializable
 	 */
 	public void removeGridObject(int row, int col)
 	{
-		grid[row][col] = null;
+		if(grid[row][col].isStorageEmpty())
+		{
+			grid[row][col] = new GridObject(row, col);
+		}
+		else
+		{
+			grid[row][col] = grid[row][col].getStored();
+		}
 	}
 	
 	/**
