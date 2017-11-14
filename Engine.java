@@ -115,7 +115,14 @@ public class Engine implements Serializable
 	 */
 	public boolean moveUp()
 	{
-		return true;
+		if(grid.getPlayer().getRow() > 0 && !grid.getGridObject(grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn()).isARoom()) {
+			grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+			//grid.resetVisibility();			
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	/**
@@ -123,7 +130,20 @@ public class Engine implements Serializable
 	 */
 	public boolean moveDown()
 	{
-		return true;
+		if(!grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1).isARoom()) {
+			if(grid.getPlayer().getRow() < 8 && !grid.getEnemyList().equals(grid.getPlayer())) {
+				// not finish yet
+				grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+				//grid.resetVisibility();
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {			
+			return victorious();
+		}
 	}
 	
 	/**
@@ -131,7 +151,14 @@ public class Engine implements Serializable
 	 */
 	public boolean moveLeft()
 	{
-		return true;
+		if(grid.getPlayer().getColumn() > 0 && !grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1).isARoom()) {
+			grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
+			//grid.resetVisibility();
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	/**
@@ -139,7 +166,14 @@ public class Engine implements Serializable
 	 */
 	public boolean moveRight()
 	{
-		return true;
+		if(grid.getPlayer().getColumn() < 8 && !grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1).isARoom()){
+			grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1);
+			//grid.resetVisibility();
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	
