@@ -62,20 +62,19 @@ public class Engine implements Serializable
 	
 	/**
 	 * A method that returns true or false depending on whether or not the player has satisfied
-	 * the necessary conditions to win the game.
-	 */
-	public boolean checkWinCondition()
-	{
-		return false;
-	}
-	
-	/**
-	 * A method that returns true or false depending on whether or not the player has satisfied
 	 * the necessary conditions to lose the game.
 	 */
 	public boolean checkLoseCondition()
 	{
-		return false;
+		if(grid.getPlayer().getLifeCount() == 0)
+		{
+			gameOver = true;
+			return gameOver();
+		}
+		else
+		{
+			return gameOver();
+		}
 	}
 	
 	/**
