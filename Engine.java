@@ -60,6 +60,18 @@ public class Engine implements Serializable
 		return isPlayerTurn;
 	}
 	
+	public void toggleTurn()
+	{
+		if(isPlayerTurn)
+		{
+			isPlayerTurn = false;
+		}
+		else
+		{
+			isPlayerTurn = true;
+		}
+	}
+	
 	/**
 	 * A method that returns true or false depending on whether or not the player has satisfied
 	 * the necessary conditions to lose the game.
