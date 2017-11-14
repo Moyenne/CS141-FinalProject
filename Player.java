@@ -118,6 +118,7 @@ public class Player extends GridObject
 	/**
 	 * Takes away the Player's bullet to shoot the gun.
 	 */
+	 /*
 	public boolean shoot()
 	{
 		if(hasBullet)
@@ -129,6 +130,12 @@ public class Player extends GridObject
 		{
 			return false;
 		}
+	}
+	*/
+	
+	public void shoot()						// modified by Dongri
+	{
+		hasBullet = false;
 	}
 	
 	public boolean radarEnabled()
