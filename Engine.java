@@ -435,6 +435,60 @@ public class Engine implements Serializable
 	 */
 	public void enemyTurn()
 	{
+		int col = grid.getPlayer().getColumn();
+		int row = grid.getPlayer().getRow();
+		int enemyNumber = 0;
+		for(GridObject enemy : grid.getEnemyList())
+		{
+			int erow=enemy.getRow();
+			int ecol=enemy.getColumn();
+			if ((col == ecol && (Math.abs(row-erow)==1) || (row==erow && (Math.abs(col-ecol)==1))))//is the player 1 space away? if so, attack.
+			{
+				if(!grid.getPlayer().isInvincible())//invincibility check
+				{
+					grid.getPlayer().decreaseLifeCount();
+					if(grid.getPlayer().getLifeCount()==0)
+						gameOver=true;
+					grid.movePlayer(row,col,8,0);
+				}
+			}
+			else
+			{
+				Random dir= new Random();
+				switch (dir.nextInt(4))
+				{
+					case 0://try to move enemy: row+1
+						if(erow<8)//out of bounds check
+						{
+							if (!(grid.getGridObject(erow+1,ecol).isARoom()))//enemies can't enter rooms.
+								grid.moveEnemy(enemyNumber,erow+1,ecol);
+						}
+						break;
+					case 1://move enemy column+1
+						if(ecol<8)
+						{
+							if (!(grid.getGridObject(erow,ecol+1).isARoom()))
+								grid.moveEnemy(enemyNumber,erow,ecol+1);
+						}
+						break;
+					case 2://move enemy row -1
+						if(erow<0)
+						{
+							if (!(grid.getGridObject(erow-1,ecol).isARoom()))
+								grid.moveEnemy(enemyNumber,erow-1,ecol);
+						}
+						break;
+					case 3://move enemy column -1
+						if(ecol<0)
+						{
+							if(!(grid.getGridObject(erow,ecol-1).isARoom()))
+								grid.moveEnemy(enemyNumber,erow,ecol-1);
+						}
+						break;
+				}
+			}
+			enemyNumber++;
+		}
 		
 	}
 	
