@@ -20,6 +20,8 @@ public class Grid implements Serializable
 	
 	private Enemy[] enemies = new Enemy[6];
 	
+	private Item[] items = new Item[3];
+	
 	/**
 	 * The main player character. Storing it here gives the Grid and Engine classes easy
 	 * access to the Player's attributes.
@@ -201,6 +203,16 @@ public class Grid implements Serializable
 	public Enemy getEnemy(int enemyNumber)
 	{
 		return enemies[enemyNumber];
+	}
+	
+	public Item[] getItemList()
+	{
+		return items;
+	}
+	
+	public Item getItem(int itemNumber)
+	{
+		return items[itemNumber];
 	}
 	
 	/**
