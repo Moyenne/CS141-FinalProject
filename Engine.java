@@ -317,7 +317,25 @@ public class Engine implements Serializable
 	 */
 	public String displayStats()
 	{
-		return "Butts.";
+		String stats = "Player Stats" + "\n------------";
+		stats += "\nLife Count: " + grid.getPlayer().getLifeCount();
+		if(grid.getPlayer().hasBullet())
+		{
+			stats += "\nAmmunition: 1";
+		}
+		else
+		{
+			stats += "\nAmmunition: 0";
+		}
+		if(grid.getPlayer().isInvincible())
+		{
+			stats += "\nTurns Invincibile Remaining: " + grid.getPlayer().getInvincibilityLength();
+		}
+		if(grid.getPlayer().radarEnabled())
+		{
+			stats += "\nBriefcase Location: Room " + grid.getWinRoom();
+		}
+		return stats;
 	}
 	
 	/**
