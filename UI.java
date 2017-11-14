@@ -1,5 +1,7 @@
 package edu.cpp.cs.cs141.FinalProject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -28,9 +30,9 @@ public class UI
 	 * The main constructor for the class, which accepts an Engine as a parameter, and then sets
 	 * the engine and keyboard to their appropriate values.
 	 */
-	public UI(Engine engine)
+	public UI()
 	{
-		this.engine = engine;
+		engine = new Engine();
 		keyboard = new Scanner(System.in);
 	}
 	
@@ -84,35 +86,145 @@ public class UI
 	 */
 	public void gameLoop()
 	{
+		ArrayList<String> initialOptions = new ArrayList<String>();
+		initialOptions.add("look");
+		initialOptions.add("move");
+		initialOptions.add("shoot");
+		initialOptions.add("save");
+		initialOptions.add("load");
+		initialOptions.add("quit");
+		String input;
 		
+		do
+		{
+			System.out.println(engine.displayGrid());
+			System.out.println(engine.displayStats());
+			System.out.println("Please enter the option you would like to do:");
+			displayOptions(initialOptions);
+			input = getInput(initialOptions);
+			
+			switch(input)
+			{
+			case "look":
+				doLookAction();
+				initialOptions.remove(0);						// Removes the first element in the list, which would be "look",
+				continue;										// because the look action can only be done once per turn.
+			case "move":
+				doMoveAction();
+				break;
+			case "shoot":
+				doShootAction();
+				break;
+			case "save":
+				// implement save
+				break;
+			case "load":
+				// implement load
+				break;
+			case "quit":
+				// implement quit
+				break;
+			}
+			
+			// implement enemy turns
+			
+			if(!initialOptions.get(0).equals("look"))			// This checks if "look" has been removed from the start of the list.
+				initialOptions.add(0, "look");					// And properly replaces "look" back into the beginning of the list if it was removed.
+		} while(!engine.gameOver());
+	}
+	
+	/**
+	 * This method implements the "look" action that the player can do.
+	 * It first checks for all of the possible directions the player can look,
+	 * then prompts the user for a valid choice and finally implements that
+	 * action in the game engine.
+	 */
+	private void doLookAction()
+	{
+		ArrayList<String> dirOptions = new ArrayList<String>();
+		String input;
+		
+		if(engine.lookUp())
+			dirOptions.add("up");
+		if(engine.lookRight())
+			dirOptions.add("right");
+		if(engine.lookDown())
+			dirOptions.add("down");
+		if(engine.lookLeft())
+			dirOptions.add("left");
+		
+		System.out.println("Please enter the direction you would like to look:");
+		displayOptions(dirOptions);
+		input = getInput(dirOptions);
+		
+		engine.look(input);
+	}
+
+	private void doMoveAction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void doShootAction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * This method displays the options that are all in the ArrayList {@code listOfOptions} argument, in a numbered fashion.
+	 * 
+	 * <p>The format that is printed to the screen is: 1. [e1] 2. [e2] . . . n. [en] such that e1, e2, . . ., en
+	 * is the nth element in {@code listOfOptions}.
+	 * @param listOfOptions
+	 */
+	private void displayOptions(ArrayList<String> listOfOptions)
+	{
+		for(int i = 0; i < listOfOptions.size(); i++)
+			System.out.print((i + 1) + ". " + listOfOptions.get(i) + " ");
+		System.out.println();
 	}
 	
 	/**
 	 * This method should be invoked whenever an input is needed from the user.
-	 * Provide an array of strings that consists of valid inputs, in which the input from the user
-	 * must match one of the elements of the array, ignoring case.
+	 * Provide an ArrayList of strings that consists of valid inputs, ordered from the first option to last,
+	 * in which the input from the user must match one of the elements of the ArrayList, ignoring case,
+	 * <b>or</b> the user inputs a number that corresponds to the option's index in the ArrayList + 1.
+	 * 
 	 * <p>
 	 * This method also handles invalid inputs from the user, printing an appropriate error message, and
 	 * will only return when a valid input is given.
-	 * @param validInputs An array of strings that consists of all the inputs that would properly progress the game
-	 * @return One of the strings from the given array, determined by the input from the user
+	 * @param options An ArrayList of strings that consists of all the inputs that would properly progress the game
+	 * @return One of the strings from the given ArrayList, determined by the input from the user
 	 */
-	private String getInput(String[] validInputs)
+	private String getInput(ArrayList<String> options)
 	{
 		StringTokenizer tokenizer;
 		String input;
+		int integerInput;
+		String finalInput;
 		
 		do
 		{
 			try
 			{
+				System.out.print("> ");
 				tokenizer = new StringTokenizer(keyboard.nextLine());
 				
-				if(tokenizer.countTokens() == 0)							// true if the user entered an empty input,
-					throw new Exception();									// in other words they just pressed [ENTER]
+				if(tokenizer.countTokens() == 0)									// true if the user entered an empty input,
+					throw new Exception();											// in other words they just pressed [ENTER]
 				
-				input = checkInput(tokenizer.nextToken(), validInputs);
-				return input;
+				input = tokenizer.nextToken();
+				if(input.length() == 1 && Character.isDigit(input.charAt(0)))		// this checks if the user has just entered
+				{																	// the number of the option desired
+					integerInput = Integer.parseInt(input);
+					if(integerInput > 0 && integerInput < options.size() + 1)
+						return options.get(integerInput - 1);
+					else
+						throw new IllegalArgumentException();
+				}
+				
+				finalInput = checkInput(input, options);
+				return finalInput;
 			} catch(IllegalArgumentException iae) {
 				System.err.println("Error! Please enter a valid input according to the options given.");
 			} catch(Exception e) {
@@ -123,15 +235,15 @@ public class UI
 	
 	/**
 	 * This method checks whether the given {@code input} is valid, in other words it matches one of the strings
-	 * in the given {@code validInputs} array, ignoring case.
+	 * in the given {@code validInputs} ArrayList, ignoring case.
 	 * @param input The string to test for validity
-	 * @param validInputs An array consisting of all the possible strings that are valid
+	 * @param options An ArrayList consisting of all the possible strings that are valid
 	 * @return One of the strings in {@code validInputs}
 	 * @throws IllegalArgumentException when {@code input} does not match any of the elements in {@code validInputs}.
 	 */
-	private String checkInput(String input, String[] validInputs) throws IllegalArgumentException
+	private String checkInput(String input, ArrayList<String> options) throws IllegalArgumentException
 	{	
-		for(String validInput : validInputs)
+		for(String validInput : options)
 			if(input.equalsIgnoreCase(validInput))
 				return validInput;
 		
