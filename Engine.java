@@ -1,6 +1,7 @@
 package edu.cpp.cs.cs141.FinalProject;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * This class represents the game's main internal engine, controlling all of the game's
@@ -35,6 +36,8 @@ public class Engine implements Serializable
 	 * then the enemies take their turn automatically.
 	 */
 	private boolean isPlayerTurn = true;
+	
+	private Random rand = new Random();
 	
 	/**
 	 * A simple method that returns the boolean value stored by the gameOver variable.
@@ -105,72 +108,84 @@ public class Engine implements Serializable
 	 * String, the player will be allowed to move in a certain direction. The corresponding direction calls a
 	 * specific method due to unique movement rules.
 	 */
-	public boolean move(String input)
+	public int move(String input)
 	{
-		return moveUp();
+		if(input=="w" || input=="W")
+			return moveUp();
+		else if(input=="s" || input=="S")
+			return moveDown();
+		else if(input=="d" || input=="D")
+			return moveRight();
+		else
+			return moveLeft();
 	}
 	
 	/**
 	 * A method that determines if a player is able to move upwards, according to specific movement rules.
 	 */
-	public boolean moveUp()
+	public int moveUp()
 	{
-		if(grid.getPlayer().getRow() > 0 && !grid.getGridObject(grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn()).isARoom()) {
-			grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
-			//grid.resetVisibility();			
-			return true;
-		}
+		int row = grid.getPlayer().getRow();
+		int col = grid.getPlayer().getColumn();
+		
+		if(row == 0)
+			return 0; 				//print "it is the end" in UI
+		
+		else if(grid.getGridObject(row-1, col).isARoom()) 
+			return 1;
+		// print "the room only accessible from the top"
+		
+		else if(grid.getGridObject(row-1, col).isAnEnemy()) {
+			grid.getPlayer().changePosition(row+1, col);
+			playerIsDead();
+			return 2;
+		} 
+		
+		else if(grid.getGridObject(row-1, col).isAnItem()) {
+			grid.getPlayer().changePosition(row+1, col);
+			consumeItem();
+			return 3;
+		} 
+		
 		else {
-			System.out.println(" You can not go there ");
-			return false;
+			grid.getPlayer().changePosition(row+1, col);
+			return 4;
 		}
 	}
 	
+	private void consumeItem() {
+		
+	}
+
 	/**
 	 * A method that determines if a player is able to move downwards, according to specific movement rules.
 	 */
-	public boolean moveDown()
+	public int moveDown()
 	{
-		if(grid.getPlayer().getRow() < 8 ) {
-			grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
-			return true;
-		}
-		else {
-			System.out.println(" You can not go there ");
-			return false;
-		}
+		return true;
 	}
 	
 	/**
 	 * A method that determines if a player is able to move leftwards, according to specific movement rules.
 	 */
-	public boolean moveLeft()
+	public int moveLeft()
 	{
-		if(grid.getPlayer().getColumn() > 0 && !grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1).isARoom()) {
-			grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
-			return true;
-		}
-		else {
-			System.out.println(" You can not go there ");
-			return false;
-		}
+		return true;
 	}
 	
 	/**
 	 * A method that determines if a player is able to move rightwards, according to specific movement rules.
 	 */
-	public boolean moveRight()
+	public int moveRight()
 	{
-		if(grid.getPlayer().getColumn() < 8 && !grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1).isARoom()){
-			grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1);
-			return true;
-		}
-		else {
-			System.out.println(" You can not go there ");
-			return false;
-		}
+		return true;
 	}
-
+	
+	public boolean checkBullet() {
+		if(grid.getPlayer().hasBullet())
+			return true;
+		return false;
+	}
 	
 	/**
 	 * The hub shoot method, a method that accepts a String value as a parameter. Depending on the value of this
@@ -179,48 +194,124 @@ public class Engine implements Serializable
 	 */
 	public boolean shoot(String input)
 	{
-		return shootUp();
+		grid.getPlayer().shoot();
+		if(input=="w" || input=="W")
+			return shootUp();
+		else if(input=="s" || input=="S")
+			return shootDown();
+		else if(input=="d" || input=="D")
+			return shootRight();
+		else
+			return shootLeft();
 	}
 	
 	/**
 	 * A method that determines if a player is able to shoot upwards, according to specific shooting rules.
 	 */
 	public boolean shootUp()
-	{
-		return true;
+	{	
+		int row = grid.getPlayer().getRow() -1;						//start from the above square of the spy
+		int col = grid.getPlayer().getColumn();
+				
+		while(row >= 0) {
+			
+			if(grid.getGridObject(row,col).isARoom())				//block by the room
+				return false;
+			
+			if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
+				enemyIsKilled(row, col);
+				return true;
+			}
+			
+			row--;
+		}
+		
+		return false;
+		
+		// For the false, display "Nothing happened" in the UI
+		// For the true, display "enemy is killed"
 	}
-	
+
 	/**
 	 * A method that determines if a player is able to shoot downwards, according to specific shooting rules.
 	 */
 	public boolean shootDown()
 	{
-		return true;
+		int row = grid.getPlayer().getRow() +1;						//start from the bottom square of the spy
+		int col = grid.getPlayer().getColumn();
+				
+		while(row <= 8) {
+			
+			if(grid.getGridObject(row,col).isARoom())				//block by the room
+				return false;
+			
+			if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
+				enemyIsKilled(row, col);
+				return true;
+			}
+			
+			row++;
+		}
+		
+		return false;
 	}
 	
-	/**
-	 * A method that determines if a player is able to shoot leftwards, according to specific shooting rules.
-	 */
-	public boolean shootLeft()
-	{
-		return true;
-	}
 	
 	/**
 	 * A method that determines if a player is able to shoot rightwards, according to specific shooting rules.
 	 */
 	public boolean shootRight()
 	{
-		if(0 == 0 && 4 >= 2)
-		{
-			return true;
+		int row = grid.getPlayer().getRow();						
+		int col = grid.getPlayer().getColumn() +1;					//start from the right square of the spy
+				
+		while(col <= 8) {
+			
+			if(grid.getGridObject(row,col).isARoom())				//block by the room
+				return false;
+			
+			if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
+				enemyIsKilled(row, col);
+				return true;
+			}
+			
+			col++;
 		}
-		else
-		{
-			return false;
-		}
+		
+		return false;
 	}
 	
+	
+	/**
+	 * A method that determines if a player is able to shoot leftwards, according to specific shooting rules.
+	 */
+	public boolean shootLeft()
+	{	
+		int row = grid.getPlayer().getRow();						
+		int col = grid.getPlayer().getColumn() -1;					//start from the left square of the spy
+				
+		while(col >= 0) {
+			
+			if(grid.getGridObject(row,col).isARoom())				//block by the room
+				return false;
+			
+			if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
+				enemyIsKilled(row, col);
+				return true;
+			}
+			
+			col--;
+		}
+		
+		return false;
+	}
+	
+	private void enemyIsKilled(int row, int col)								// modified by Dongri
+	{
+		//here needs a duplicate case, which the enemy duplicates with other items
+		grid.removeGridObject(row, col);
+	}
+
 	/**
 	 * The hub look method, a method that accepts a String value as a parameter. Depending on the value of this
 	 * String, the player will be allowed to look in a certain direction. The corresponding direction calls a
@@ -277,11 +368,59 @@ public class Engine implements Serializable
 	 * A method that details the functions to be performed on the enemy turn. The enemy either moves randomly or
 	 * kills the player. This applies to all enemies.
 	 */
-	public void enemyTurn()
+	public void enemyTurn()						//modified by Dongri
 	{
-		
+		enemyMove();
 	}
 	
+	private void enemyMove() {					//modified by Dongri
+		int direction;
+		int n = 0;
+		while(n < 6)
+		{
+			direction = rand.nextInt(4) + 1;
+			if (direction == 1)
+				enemyMoveUp(n);
+			else if (direction == 2)
+				enemyMoveDown(n);
+			else if (direction == 3)
+				enemyMoveRight(n);
+			else if (direction == 4)
+				enemyMoveLeft(n);
+			
+			if(checkPlayer()) {
+				playerIsDead();
+				break;
+			}
+		}
+	}
+	
+	private void enemyMoveUp(int n) {
+		
+	}
+
+	private void enemyMoveDown(int n) {
+		
+	}
+
+	private void enemyMoveRight(int n) {
+		
+	}
+
+	private void enemyMoveLeft(int n) {
+		
+	}
+
+	private boolean checkPlayer() {
+		
+		return false;
+	}
+	
+	private void playerIsDead() {
+		grid.getPlayer().decreaseLifeCount();
+		gameOver = true;
+	}
+
 	/**
 	 * A simple method that returns the total display created in the Grid class that details all GridObjects on the
 	 * grid.
@@ -309,13 +448,5 @@ public class Engine implements Serializable
 		gameOver = false;
 		victory = false;
 		isPlayerTurn = true;
-	}
-	
-	// This method returns the grid that is being used in this Engine class.
-	// It might serve a purpose for debug mode later on, but it does make
-	// the grid field being private redundant as any public class can call
-	// this method and modify the grid itself; an example of shallow copying
-	public Grid getGrid() {
-		return grid;
 	}
 }
