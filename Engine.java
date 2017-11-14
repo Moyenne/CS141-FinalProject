@@ -210,13 +210,17 @@ public class Engine implements Serializable
 		
 		switch(direction)
 		{
-		case "up":		grid.setPositionVisibility(grid.getPlayer().getRow() - 2, grid.getPlayer().getColumn());
-						break;
-		case "right":	grid.setPositionVisibility(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 2);
-						break;
-		case "down":	grid.setPositionVisibility(grid.getPlayer().getRow() + 2, grid.getPlayer().getColumn());
-						break;
-		case "left":	grid.setPositionVisibility(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 2);
+		case "up":
+			grid.setPositionVisibility(grid.getPlayer().getRow() - 2, grid.getPlayer().getColumn());
+			break;
+		case "right":
+			grid.setPositionVisibility(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 2);
+			break;
+		case "down":
+			grid.setPositionVisibility(grid.getPlayer().getRow() + 2, grid.getPlayer().getColumn());
+			break;
+		case "left":
+			grid.setPositionVisibility(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 2);
 		}
 	}
 	
