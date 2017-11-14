@@ -30,6 +30,8 @@ public class Player extends GridObject
 	 */
 	private boolean hasBullet = true;
 	
+	private boolean radarEnabled = false;
+	
 	/**
 	 * Constructor for Player. Takes position on the Grid as arguments.
 	 */
@@ -127,6 +129,21 @@ public class Player extends GridObject
 		{
 			return false;
 		}
+	}
+	
+	public boolean radarEnabled()
+	{
+		return radarEnabled;
+	}
+	
+	public void enableRadar()
+	{
+		radarEnabled = true;
+	}
+	
+	public void disableRadar()
+	{
+		radarEnabled = false;
 	}
 	
 	public boolean isAPlayer()
