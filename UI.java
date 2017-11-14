@@ -175,7 +175,7 @@ public class UI
 	 * 
 	 * <p>The format that is printed to the screen is: 1. [e1] 2. [e2] . . . n. [en] such that e1, e2, . . ., en
 	 * is the nth element in {@code listOfOptions}.
-	 * @param listOfOptions
+	 * @param listOfOptions An ArrayList that consists of all the options to be displayed onto the screen
 	 */
 	private void displayOptions(ArrayList<String> listOfOptions)
 	{
@@ -193,10 +193,10 @@ public class UI
 	 * <p>
 	 * This method also handles invalid inputs from the user, printing an appropriate error message, and
 	 * will only return when a valid input is given.
-	 * @param initialOptions An ArrayList of strings that consists of all the inputs that would properly progress the game
+	 * @param options An ArrayList of strings that consists of all the inputs that would properly progress the game
 	 * @return One of the strings from the given ArrayList, determined by the input from the user
 	 */
-	private String getInput(ArrayList<String> initialOptions)
+	private String getInput(ArrayList<String> options)
 	{
 		StringTokenizer tokenizer;
 		String input;
@@ -217,13 +217,13 @@ public class UI
 				if(input.length() == 1 && Character.isDigit(input.charAt(0)))		// this checks if the user has just entered
 				{																	// the number of the option desired
 					integerInput = Integer.parseInt(input);
-					if(integerInput > 0 && integerInput < initialOptions.size() + 1)
-						return initialOptions.get(integerInput - 1);
+					if(integerInput > 0 && integerInput < options.size() + 1)
+						return options.get(integerInput - 1);
 					else
 						throw new IllegalArgumentException();
 				}
 				
-				finalInput = checkInput(input, initialOptions);
+				finalInput = checkInput(input, options);
 				return finalInput;
 			} catch(IllegalArgumentException iae) {
 				System.err.println("Error! Please enter a valid input according to the options given.");
@@ -235,15 +235,15 @@ public class UI
 	
 	/**
 	 * This method checks whether the given {@code input} is valid, in other words it matches one of the strings
-	 * in the given {@code validInputs} ArrayList, ignoring case.
+	 * in the given {@code options} ArrayList, ignoring case.
 	 * @param input The string to test for validity
-	 * @param initialOptions An ArrayList consisting of all the possible strings that are valid
-	 * @return One of the strings in {@code validInputs}
-	 * @throws IllegalArgumentException when {@code input} does not match any of the elements in {@code validInputs}.
+	 * @param options An ArrayList consisting of all the possible strings that are valid options
+	 * @return One of the strings in {@code options}
+	 * @throws IllegalArgumentException when {@code input} does not match any of the elements in {@code options}.
 	 */
-	private String checkInput(String input, ArrayList<String> initialOptions) throws IllegalArgumentException
+	private String checkInput(String input, ArrayList<String> options) throws IllegalArgumentException
 	{	
-		for(String validInput : initialOptions)
+		for(String validInput : options)
 			if(input.equalsIgnoreCase(validInput))
 				return validInput;
 		
