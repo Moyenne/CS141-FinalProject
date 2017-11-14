@@ -1,6 +1,8 @@
 package edu.cpp.cs.cs141.FinalProject;
 
 import java.io.Serializable;
+import java.lang.Math;
+import java.util.Random;
 
 /**
  * This class represents the game's main internal engine, controlling all of the game's
