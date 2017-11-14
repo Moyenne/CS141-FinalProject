@@ -305,6 +305,11 @@ public class Grid implements Serializable
 		return player;
 	}
 	
+	public int getWinRoom()
+	{
+		return winRoom;
+	}
+	
 	/**
 	 * This method returns a string ready to be printed to the screen. 
 	 * 
