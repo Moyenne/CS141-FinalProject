@@ -175,7 +175,7 @@ public class UI
 	 * 
 	 * <p>The format that is printed to the screen is: 1. [e1] 2. [e2] . . . n. [en] such that e1, e2, . . ., en
 	 * is the nth element in {@code listOfOptions}.
-	 * @param listOfOptions
+	 * @param listOfOptions An ArrayList that consists of all the options to be dislpayed
 	 */
 	private void displayOptions(ArrayList<String> listOfOptions)
 	{
@@ -235,11 +235,11 @@ public class UI
 	
 	/**
 	 * This method checks whether the given {@code input} is valid, in other words it matches one of the strings
-	 * in the given {@code validInputs} ArrayList, ignoring case.
+	 * in the given {@code options} ArrayList, ignoring case.
 	 * @param input The string to test for validity
-	 * @param options An ArrayList consisting of all the possible strings that are valid
+	 * @param options An ArrayList consisting of all the possible strings that are valid options
 	 * @return One of the strings in {@code validInputs}
-	 * @throws IllegalArgumentException when {@code input} does not match any of the elements in {@code validInputs}.
+	 * @throws IllegalArgumentException when {@code input} does not match any of the elements in {@code options}.
 	 */
 	private String checkInput(String input, ArrayList<String> options) throws IllegalArgumentException
 	{	
