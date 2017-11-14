@@ -193,13 +193,15 @@ public class Engine implements Serializable
 	{
 		grid.getPlayer().shoot();
 		
-		if(input=="w" || input=="W")
+		input = input.toLowerCase();
+		
+		if(input=="up")
 			return shootUp();
 		
-		else if(input=="s" || input=="S")
+		else if(input=="down")
 			return shootDown();
 		
-		else if(input=="d" || input=="D")
+		else if(input=="right")
 			return shootRight();
 		
 		else
