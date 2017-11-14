@@ -331,7 +331,7 @@ public class Grid implements Serializable
 		{
 			for(int col = 0; col < 9; col++)
 			{
-				if(debugOn && grid[row][col].isARoom() && (grid[row][col].getRoomNumber() == winRoom))
+				if((debugOn || player.radarEnabled()) && grid[row][col].isARoom() && (grid[row][col].getRoomNumber() == winRoom))
 				{
 					output = output.concat("[*]");
 				}
