@@ -42,7 +42,7 @@ public class UI
 	 */
 	public void startGame()
 	{
-		
+		gameLoop();
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public class UI
 				break;
 			case "shoot":
 				if(!engine.checkBullet())
-					System.out.println("You are out of ammo please try the other option.");
+					System.out.println("You are out of ammo, please try another other option.");
 				else
 					doShootAction();
 			case "save":
@@ -128,7 +128,12 @@ public class UI
 				break;
 			}
 			
-			// implement enemy turns
+			engine.enemyTurn();
+			
+			if(engine.getGrid().getPlayer().isInvincible())
+			{
+				engine.getGrid().getPlayer().decreaseInvincibility();
+			}
 			
 			if(!initialOptions.get(0).equals("look"))			// This checks if "look" has been removed from the start of the list.
 				initialOptions.add(0, "look");					// And properly replaces "look" back into the beginning of the list if it was removed.
@@ -163,8 +168,23 @@ public class UI
 	}
 
 	private void doMoveAction() {
-		// TODO Auto-generated method stub
+		ArrayList<String> dirOptions = new ArrayList<String>();
+		String input;
 		
+		if(engine.moveUp())
+			dirOptions.add("up");
+		if(engine.moveRight())
+			dirOptions.add("right");
+		if(engine.moveDown())
+			dirOptions.add("down");
+		if(engine.moveLeft())
+			dirOptions.add("left");
+		
+		System.out.println("Please enter the direction you would like to move:");
+		displayOptions(dirOptions);
+		input = getInput(dirOptions);
+		
+		engine.move(input);
 	}
 
 	private void doShootAction() {
@@ -187,7 +207,7 @@ public class UI
 		if(engine.shoot(input)) 
 			System.out.println("Great! You killed the enemy.");
 		else
-			System.out.println("You are missed.");	
+			System.out.println("You missed. You'll need to find more ammo.");	
 	}
 
 	/**
