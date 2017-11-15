@@ -144,8 +144,9 @@ public class Engine implements Serializable
 	 // modified by Fengyi Guo
 	public boolean moveUp()
 	{
-		GridObject objectUp = grid.getGridObject(grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn());
-		if(grid.getPlayer().getRow() > 0) {				
+		
+		if(grid.getPlayer().getRow() > 0) {	
+			GridObject objectUp = grid.getGridObject(grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn());
 			if(objectUp.isARoom()) {
 				return false;
 			}
@@ -153,13 +154,14 @@ public class Engine implements Serializable
 				return false;
 			}
 			else if(objectUp.isAnItem()) {
-				grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+				grid.getGridObject(grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn());
 				activatePowerUp((Item)objectUp);;
 				//TODO
 				return true;
 			}
-			else {
-				grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+			else
+			{
+				grid.getGridObject(grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn());
 				//grid.resetVisibility();			
 				return true;
 			}
@@ -174,8 +176,9 @@ public class Engine implements Serializable
 	 */
 	public boolean moveDown()
 	{
-		GridObject objectDown = grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+		
 		if(grid.getPlayer().getRow() < 8) {
+			GridObject objectDown = grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
 			if(objectDown.isARoom()) {
 				if(objectDown.getRoomNumber() == grid.getWinRoom())
 				{
@@ -211,8 +214,9 @@ public class Engine implements Serializable
 	 */
 	public boolean moveLeft()
 	{
-		GridObject objectLeft = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
-		if(grid.getPlayer().getColumn() > 0) {				
+	
+		if(grid.getPlayer().getColumn() > 0) {
+			GridObject objectLeft = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
 			if(objectLeft.isARoom()) {
 				return false;
 			}
@@ -241,8 +245,9 @@ public class Engine implements Serializable
 	 */
 	public boolean moveRight()
 	{
-		GridObject objectRight = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1);
-		if(grid.getPlayer().getColumn() < 8) {		
+		
+		if(grid.getPlayer().getColumn() < 8) {
+			GridObject objectRight = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1);
 			if(objectRight.isARoom()) {
 				return false;
 			}
@@ -541,7 +546,7 @@ public class Engine implements Serializable
 			}
 			else
 			{
-				Random dir= new Random();
+				Random dir = new Random();
 				boolean EnemyHasMoved=false;
 				do
 				{
@@ -550,7 +555,7 @@ public class Engine implements Serializable
 						case 0://try to move enemy: row+1
 							if(erow<8)//out of bounds check
 							{
-								if (!(grid.getGridObject(erow+1,ecol).isARoom() || grid.getGridObject(erow+1,ecol).isAnEnemy()))//enemies can't enter rooms.
+								if (!(grid.getGridObject(erow+1,ecol).isARoom() && !(grid.getGridObject(erow+1,ecol).isAnEnemy())))//enemies can't enter rooms.
 								{
 									grid.moveEnemy(enemyNumber,erow+1,ecol);
 									EnemyHasMoved=true;
@@ -561,7 +566,7 @@ public class Engine implements Serializable
 						case 1://move enemy column+1
 							if(ecol<8)
 							{
-								if (!(grid.getGridObject(erow,ecol+1).isARoom() || grid.getGridObject(erow,ecol+1).isAnEnemy()))
+								if (!(grid.getGridObject(erow,ecol+1).isARoom() && !(grid.getGridObject(erow,ecol+1).isAnEnemy())))
 								{
 									grid.moveEnemy(enemyNumber,erow,ecol+1);
 									EnemyHasMoved=true;
@@ -571,7 +576,7 @@ public class Engine implements Serializable
 						case 2://move enemy row -1
 							if(erow<0)
 							{
-								if (!(grid.getGridObject(erow-1,ecol).isARoom() || grid.getGridObject(erow-1,ecol).isAnEnemy()))
+								if (!(grid.getGridObject(erow-1,ecol).isARoom() && !(grid.getGridObject(erow-1,ecol).isAnEnemy())))
 								{
 									grid.moveEnemy(enemyNumber,erow-1,ecol);
 									EnemyHasMoved=true;
@@ -581,7 +586,7 @@ public class Engine implements Serializable
 						case 3://move enemy column -1
 							if(ecol<0)
 							{
-								if(!(grid.getGridObject(erow,ecol-1).isARoom() || grid.getGridObject(erow,ecol-1).isAnEnemy()))
+								if(!(grid.getGridObject(erow,ecol-1).isARoom() && !(grid.getGridObject(erow,ecol-1).isAnEnemy())))
 								{
 									grid.moveEnemy(enemyNumber,erow,ecol-1);
 									EnemyHasMoved=true;
