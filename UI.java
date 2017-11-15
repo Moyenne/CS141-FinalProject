@@ -113,8 +113,10 @@ public class UI
 				doMoveAction();
 				break;
 			case "shoot":
-				doShootAction();
-				break;
+				if(!engine.checkBullet())
+					System.out.println("You are out of ammo please try the other option.");
+				else
+					doShootAction();
 			case "save":
 				// implement save
 				break;
