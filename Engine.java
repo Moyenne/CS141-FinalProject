@@ -407,14 +407,8 @@ public class Engine implements Serializable
 	
 	private void enemyIsKilled(int row, int col)								// modified by Dongri
 	{
-		GridObject dead = grid.getGridObject(row, col);
-		for(Enemy enemy : grid.getEnemyList())
-		{
-			if((enemy.getRow() == dead.getRow()) && (enemy.getColumn() == dead.getColumn()))
-			{
-				enemy = null;
-			}
-		}
+		Enemy dying = (Enemy)grid.getGridObject(row, col);
+		dying.die();
 		grid.removeGridObject(row, col);
 	}
 
