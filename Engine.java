@@ -126,15 +126,30 @@ public class Engine implements Serializable
 	/**
 	 * A method that determines if a player is able to move upwards, according to specific movement rules.
 	 */
+	 // modified by Fengyi Guo
 	public boolean moveUp()
 	{
-		if(grid.getPlayer().getRow() > 0 && !grid.getGridObject(grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn()).isARoom()) {
-			grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
-			//grid.resetVisibility();			
-			return true;
+		GridObject objectUp = grid.getGridObject(grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn());
+		if(grid.getPlayer().getRow() > 0) {				
+			if(objectUp.isARoom()) {
+				return false;
+			}
+			else if(objectUp.isAnEnemy()) {
+				return false;
+			}
+			else if(objectUp.isAnItem()) {
+				grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+				//TODO
+				return true;
+			}
+			else {
+				grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+				//grid.resetVisibility();			
+				return true;
+			}
 		}
 		else {
-			return false;
+			return false;// out of range
 		}
 	}
 	
@@ -143,20 +158,30 @@ public class Engine implements Serializable
 	 */
 	public boolean moveDown()
 	{
-		if(!grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1).isARoom()) {
-			if(grid.getPlayer().getRow() < 8 && !grid.getEnemyList().equals(grid.getPlayer())) {
-				// not finish yet
+		GridObject objectDown = grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+		if(grid.getPlayer().getRow() < 8) {
+			if(objectDown.isARoom()) {
+				victorious(room);	
+				return false;
+			}
+			else if(objectDown.isAnEnemy()) {
+				return false;
+			}
+			else if(objectDown.isAnItem()) {
+				//TODO
 				grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
-				//grid.resetVisibility();
 				return true;
 			}
 			else {
-				return false;
-			}
+				// player is able to move down
+				grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+				//grid.resetVisibility();	
+				return true;
+			}			
 		}
-		else {			
-			return victorious();
-		}
+		else {
+			return false;// out of range
+		}		
 	}
 	
 	/**
@@ -164,13 +189,27 @@ public class Engine implements Serializable
 	 */
 	public boolean moveLeft()
 	{
-		if(grid.getPlayer().getColumn() > 0 && !grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1).isARoom()) {
-			grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
-			//grid.resetVisibility();
-			return true;
+		GridObject objectLeft = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
+		if(grid.getPlayer().getColumn() > 0) {				
+			if(objectLeft.isARoom()) {
+				return false;
+			}
+			else if(objectLeft.isAnEnemy()) {
+				return false;
+			}
+			else if(objectLeft.isAnItem()) {
+				grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
+				//TODO
+				return true;
+			}
+			else {
+				grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
+				//grid.resetVisibility();			
+				return true;
+			}
 		}
 		else {
-			return false;
+			return false;// out of range
 		}
 	}
 	
@@ -179,13 +218,27 @@ public class Engine implements Serializable
 	 */
 	public boolean moveRight()
 	{
-		if(grid.getPlayer().getColumn() < 8 && !grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1).isARoom()){
-			grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1);
-			//grid.resetVisibility();
-			return true;
+		GridObject objectRight = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1);
+		if(grid.getPlayer().getColumn() < 8) {		
+			if(objectRight.isARoom()) {
+				return false;
+			}
+			else if(objectRight.isAnEnemy()) {
+				return false;
+			}
+			else if(objectRight.isAnItem()) {
+				grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1);
+				//TODO
+				return true;
+			}
+			else {
+				grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1);
+				//grid.resetVisibility();			
+				return true;
+			}
 		}
 		else {
-			return false;
+			return false; // out of range
 		}
 	}
 	
