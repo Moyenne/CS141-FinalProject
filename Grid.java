@@ -47,8 +47,8 @@ public class Grid implements Serializable
 	 */
 	private void generalGridSetup()
 	{
-		player = new Player(8, 0);
-		addGridObject(player, 8, 0);
+		player = new Player(3, 4);
+		addGridObject(player, 3, 4);
 		roomSetup();
 		enemySetup();
 		itemSetup();
@@ -104,7 +104,7 @@ public class Grid implements Serializable
 		int n = rng.nextInt(2);						// This divides the possibility of the enemy being either within only the first six rows
 		if(n == 0)									// or within only the last 6 columns, thus always being at least 3 squares away from the
 		{											// player. When n == 0, the enemy will only spawn in a row < 6, when n == 1, the enemy
-			while(numOfEnemies < 6)					// will only spawn in a column >= 3.
+			while(numOfEnemies < 5)					// will only spawn in a column >= 3.
 			{
 				row = rng.nextInt(6);
 				col = rng.nextInt(9);
@@ -113,15 +113,20 @@ public class Grid implements Serializable
 					continue;
 				else
 				{
+					//enemies[numOfEnemies] = new Enemy(row, col);
+					//grid[row][col] = enemies[numOfEnemies];
 					grid[row][col] = new Enemy(row, col);
-					enemies[numOfEnemies] = new Enemy(row, col);
+					enemies[numOfEnemies] = (Enemy)grid[row][col];
+					//enemies[numOfEnemies] = new Enemy(row, col);
 					numOfEnemies++;
 				}
 			}
+			grid[3][3] = new Enemy(3,3);
+			enemies[5] = new Enemy(3, 3);
 		}
 		else
 		{
-			while(numOfEnemies < 6)
+			while(numOfEnemies < 5)
 			{
 				row = rng.nextInt(9);
 				col = rng.nextInt(6) + 3;
@@ -130,11 +135,16 @@ public class Grid implements Serializable
 					continue;
 				else
 				{
+					//enemies[numOfEnemies] = new Enemy(row, col);
+					//grid[row][col] = enemies[numOfEnemies];
 					grid[row][col] = new Enemy(row, col);
-					enemies[numOfEnemies] = new Enemy(row, col);
+					enemies[numOfEnemies] = (Enemy)grid[row][col];
+					//enemies[numOfEnemies] = new Enemy(row, col);
 					numOfEnemies++;
 				}
 			}
+			grid[3][3] = new Enemy(3,3);
+			enemies[5] = new Enemy(3, 3);
 		}
 		
 	}
@@ -155,6 +165,7 @@ public class Grid implements Serializable
 			{
 				positionGood = true;
 				addGridObject(bullet, row, col);
+				items[0] = new Bullet(row, col);
 			}
 			else
 			{
@@ -171,6 +182,7 @@ public class Grid implements Serializable
 			{
 				positionGood = true;
 				addGridObject(radar, row, col);
+				items[1] = new Radar(row, col);
 			}
 			else
 			{
@@ -178,41 +190,26 @@ public class Grid implements Serializable
 			}
 		}
 		Star star = new Star(0,0);
+		int col = 0;
+		int row = 7;
 		positionGood = false;
 		while(!positionGood)
 		{
-			int col = new Random().nextInt(9);
-			int row = new Random().nextInt(9);
+			//int col = new Random().nextInt(9);
+			//int row = new Random().nextInt(9);
 			if(getGridObject(row, col) == null)
 			{
 				positionGood = true;
 				addGridObject(star, row, col);
+				items[2] = new Star(row, col);
 			}
 			else
 			{
 				positionGood = false;
+				col = 1;
+				row = 8;
 			}
 		}
-	}
-	
-	public Enemy[] getEnemyList()
-	{
-		return enemies;
-	}
-	
-	public Enemy getEnemy(int enemyNumber)
-	{
-		return enemies[enemyNumber];
-	}
-	
-	public Item[] getItemList()
-	{
-		return items;
-	}
-	
-	public Item getItem(int itemNumber)
-	{
-		return items[itemNumber];
 	}
 	
 	/**
@@ -297,6 +294,26 @@ public class Grid implements Serializable
 		enemy.changePosition(newRow, newCol);
 	}
 	
+	public Enemy[] getEnemyList()
+	{
+		return enemies;
+	}
+	
+	public Enemy getEnemy(int enemyNumber)
+	{
+		return enemies[enemyNumber];
+	}
+	
+	public Item[] getItemList()
+	{
+		return items;
+	}
+	
+	public Item getItem(int itemNumber)
+	{
+		return items[itemNumber];
+	}
+	
 	/**
 	 * A simple method that returns the Player class stored in the player variable.
 	 */
@@ -317,6 +334,11 @@ public class Grid implements Serializable
 	 */
 	public String getGrid()
 	{
+		/*
+		 * ***NOTE***
+		 * getGrid() still needs a way to implement the 'look' action of the player
+		 * so far it only sets the adjacent blocks visible to the player
+		 */
 		if(debugOn)
 		{
 			for(int i = 0; i < 9; i++)
@@ -397,6 +419,8 @@ public class Grid implements Serializable
 	 */
 	private void resetVisibility()
 	{
+		// Goes through the grid and sets the DEFAULT squares' visibility to false.
+		// Note: not optimal, only 5 squares at most need to be reset, there should be a better way
 		for(int i = 0; i < 9; i++)
 		{
 			for(int j = 0; j < 9; j++)
