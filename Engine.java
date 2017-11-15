@@ -203,22 +203,65 @@ public class Engine implements Serializable
 	 * specific method due to unique shooting rules.
 	 */
 	public boolean shoot(String input)
-	{
+	{	
 		grid.getPlayer().shoot();
 		
-		input = input.toLowerCase();
+		int row = grid.getPlayer().getRow();						//start from the above square of the spy
+		int col = grid.getPlayer().getColumn();
 		
 		if(input=="up")
-			return shootUp();
+			do
+			{
+				row--;
+				if(grid.getGridObject(row,col).isARoom())				//block by the room
+					return false;
+				
+				if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
+					enemyIsKilled(row, col);
+					return true;
+				}
+			}while(row > 0);
 		
 		else if(input=="down")
-			return shootDown();
+			do
+			{
+				row++;
+				if(grid.getGridObject(row,col).isARoom())				//block by the room
+					return false;
+				
+				if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
+					enemyIsKilled(row, col);
+					return true;
+				}
+			}while(row < 8);
 		
 		else if(input=="right")
-			return shootRight();
+			do
+			{
+				col++;
+				if(grid.getGridObject(row,col).isARoom())				//block by the room
+					return false;
+				
+				if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
+					enemyIsKilled(row, col);
+					return true;
+				}
+			}while(col < 8);
 		
-		else
-			return shootLeft();
+		else if(input=="right")
+			do
+			{
+				col--;
+				if(grid.getGridObject(row,col).isARoom())				//block by the room
+					return false;
+				
+				if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
+					enemyIsKilled(row, col);
+					return true;
+				}
+			}while(col > 0);
+		
+		return false;
 	}
 	
 	/**
@@ -226,26 +269,13 @@ public class Engine implements Serializable
 	 */
 	public boolean shootUp()
 	{	
-		int row = grid.getPlayer().getRow() -1;						//start from the above square of the spy
-		int col = grid.getPlayer().getColumn();
+		int row = grid.getPlayer().getRow();						
+		int col = grid.getPlayer().getColumn();					
 				
-		while(row >= 0) {
-			
-			if(grid.getGridObject(row,col).isARoom())				//block by the room
-				return false;
-			
-			if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
-				enemyIsKilled(row, col);
-				return true;
-			}
-			
-			row--;
-		}
+		if(row == 0 || grid.getGridObject(row-1,col).isARoom())			//check the above square of the spy
+			return false;												//Spy cannot shoot to the wall							
 		
-		return false;
-		
-		// For the false, display "Nothing happened" in the UI
-		// For the true, display "enemy is killed"
+		return true;
 	}
 
 	/**
@@ -253,23 +283,13 @@ public class Engine implements Serializable
 	 */
 	public boolean shootDown()
 	{
-		int row = grid.getPlayer().getRow() +1;						//start from the bottom square of the spy
-		int col = grid.getPlayer().getColumn();
+		int row = grid.getPlayer().getRow();						
+		int col = grid.getPlayer().getColumn();					
 				
-		while(row <= 8) {
-			
-			if(grid.getGridObject(row,col).isARoom())				//block by the room
-				return false;
-			
-			if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
-				enemyIsKilled(row, col);
-				return true;
-			}
-			
-			row++;
-		}
+		if(row == 8 || grid.getGridObject(row+1,col).isARoom())			//check the bottom square of the spy
+			return false;												//Spy cannot shoot to the wall							
 		
-		return false;
+		return true;
 	}
 	
 	
@@ -279,22 +299,12 @@ public class Engine implements Serializable
 	public boolean shootRight()
 	{
 		int row = grid.getPlayer().getRow();						
-		int col = grid.getPlayer().getColumn() +1;					//start from the right square of the spy
+		int col = grid.getPlayer().getColumn();					
 				
-		while(col <= 8) {
-			
-			if(grid.getGridObject(row,col).isARoom())				//block by the room
-				return false;
-			
-			if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
-				enemyIsKilled(row, col);
-				return true;
-			}
-			
-			col++;
-		}
+		if(col == 8 || grid.getGridObject(row,col+1).isARoom())			//check the right square of the spy
+			return false;												//Spy cannot shoot to the wall							
 		
-		return false;
+		return true;
 	}
 	
 	
@@ -304,22 +314,12 @@ public class Engine implements Serializable
 	public boolean shootLeft()
 	{	
 		int row = grid.getPlayer().getRow();						
-		int col = grid.getPlayer().getColumn() -1;					//start from the left square of the spy
+		int col = grid.getPlayer().getColumn();					
 				
-		while(col >= 0) {
-			
-			if(grid.getGridObject(row,col).isARoom())				//block by the room
-				return false;
-			
-			if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
-				enemyIsKilled(row, col);
-				return true;
-			}
-			
-			col--;
-		}
+		if(col == 0 || grid.getGridObject(row,col-1).isARoom())			//check the left square of the spy
+			return false;												//Spy cannot shoot to the wall							
 		
-		return false;
+		return true;
 	}
 	
 	private void enemyIsKilled(int row, int col)								// modified by Dongri
