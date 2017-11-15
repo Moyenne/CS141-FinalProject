@@ -14,11 +14,11 @@ public class Player extends GridObject
 	private int lifeCount = 3;
 	
 	/**
-	 * The player's remaining time being invincible. Once it is the player's turn, this value
-	 * decreases by one, and, when the value equals 0, the player's isInvincible value is set
-	 * to false.
+	 * Whether or not the player has a bullet. This must be checked before shooting. The player can only have 1 or 0 bullets.
 	 */
-	private int invincibilityLength = 5;
+	private boolean hasBullet = true;
+	
+	private boolean radarEnabled = false;
 	
 	/**
 	 * Invincibility state triggered by Star item. Player cannot be killed while this is true.
@@ -26,11 +26,11 @@ public class Player extends GridObject
 	private boolean isInvincible = false;
 	
 	/**
-	 * Whether or not the player has a bullet. This must be checked before shooting. The player can only have 1 or 0 bullets.
+	 * The player's remaining time being invincible. Once it is the player's turn, this value
+	 * decreases by one, and, when the value equals 0, the player's isInvincible value is set
+	 * to false.
 	 */
-	private boolean hasBullet = true;
-	
-	private boolean radarEnabled = false;
+	private int invincibilityLength = 5;
 	
 	/**
 	 * Constructor for Player. Takes position on the Grid as arguments.
@@ -57,6 +57,56 @@ public class Player extends GridObject
 	public void decreaseLifeCount()
 	{
 		lifeCount--;
+	}
+	
+	/**
+	 * Checks to see if the Player has a Bullet to shoot.
+	 */
+	public boolean hasBullet()
+	{
+		return hasBullet;
+	}
+	
+	/**
+	 * Gives the player a Bullet if they do not have one already.
+	 */
+	public void gainBullet()
+	{
+		if(!hasBullet)
+		{
+			hasBullet = true;
+		}
+	}
+	
+	/**
+	 * Takes away the Player's bullet to shoot the gun.
+	 */
+	public boolean shoot()
+	{
+		if(hasBullet)
+		{
+			hasBullet = false;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public boolean radarEnabled()
+	{
+		return radarEnabled;
+	}
+	
+	public void enableRadar()
+	{
+		radarEnabled = true;
+	}
+	
+	public void disableRadar()
+	{
+		radarEnabled = false;
 	}
 	
 	/**
@@ -94,49 +144,6 @@ public class Player extends GridObject
 		{
 			switchInvincibility();
 		}
-	}
-	
-	/**
-	 * Checks to see if the Player has a Bullet to shoot.
-	 */
-	public boolean hasBullet()
-	{
-		return hasBullet;
-	}
-	
-	/**
-	 * Gives the player a Bullet if they do not have one already.
-	 */
-	public void gainBullet()
-	{
-		if(!hasBullet)
-		{
-			hasBullet = true;
-		}
-	}
-	
-	/**
-	 * Takes away the Player's bullet to shoot the gun.
-	 */
-	
-	public void shoot()						// modified by Dongri
-	{
-		hasBullet = false;
-	}
-	
-	public boolean radarEnabled()
-	{
-		return radarEnabled;
-	}
-	
-	public void enableRadar()
-	{
-		radarEnabled = true;
-	}
-	
-	public void disableRadar()
-	{
-		radarEnabled = false;
 	}
 	
 	public int getInvincibilityLength()
