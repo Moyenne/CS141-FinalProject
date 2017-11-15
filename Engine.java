@@ -120,7 +120,22 @@ public class Engine implements Serializable
 	 */
 	public boolean move(String input)
 	{
-		return moveUp();
+		input = input.toLowerCase();
+		
+			switch(input)
+			{
+				case "up":
+					grid.movePlayer(grid.getPlayer().getRow(), grid.getPlayer().getColumn(), grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn());
+					break;
+				case "right":
+					grid.movePlayer(grid.getPlayer().getRow(), grid.getPlayer().getColumn(), grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1);
+					break;
+				case "down":
+					grid.movePlayer(grid.getPlayer().getRow(), grid.getPlayer().getColumn(), grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+					break;
+				case "left":
+					grid.movePlayer(grid.getPlayer().getRow(), grid.getPlayer().getColumn(), grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
+		}
 	}
 	
 	/**
