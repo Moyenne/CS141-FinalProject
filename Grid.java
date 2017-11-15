@@ -277,6 +277,7 @@ public class Grid implements Serializable
 		{
 			grid[newRow][newCol] = enemies[enemyNumber];
 			grid[enemy.getRow()][enemy.getColumn()] = enemy.getStored();
+			enemy.removeStored();
 		}
 		else
 		{
