@@ -324,7 +324,14 @@ public class Engine implements Serializable
 	
 	private void enemyIsKilled(int row, int col)								// modified by Dongri
 	{
-		//here needs a duplicate case, which the enemy duplicates with other items
+		GridObject dead = grid.getGridObject(row, col);
+		for(Enemy enemy : grid.getEnemyList())
+		{
+			if((enemy.getRow() == dead.getRow()) && (enemy.getColumn() == dead.getColumn()))
+			{
+				enemy = null;
+			}
+		}
 		grid.removeGridObject(row, col);
 	}
 
