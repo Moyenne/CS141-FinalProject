@@ -166,8 +166,21 @@ public class UI
 	}
 
 	private void doShootAction() {
-		// TODO Auto-generated method stub
 		
+		System.out.println("Please enter the direction you would like to shoot:");
+		String input = keyboard.nextLine();
+		input = input.toLowerCase();
+		
+		while (input != "up" && input != "down" && input != "right" && input != "left" ) {
+			System.out.print("\t invalid input, please try again: ");
+			input = keyboard.nextLine();
+			input = input.toLowerCase();
+		}
+		
+		if(engine.shoot(input)) 
+			System.out.println("Great!You killed the enemy.");
+		else
+			System.out.println("You are missed.");	
 	}
 
 	/**
