@@ -218,9 +218,9 @@ public class UI
 		input = getInput(dirOptions);
 		
 		if(engine.shoot(input)) 
-			System.out.println("Great! You killed the enemy.");
+			System.out.println("Great! You killed an enemy.");
 		else
-			System.out.println("You missed. You'll need to find more ammo.");	
+			System.out.println("You missed. You'll need to find more ammo now.");	
 	}
 
 	/**
