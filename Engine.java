@@ -205,6 +205,7 @@ public class Engine implements Serializable
 	public boolean shoot(String input)
 	{	
 		grid.getPlayer().shoot();
+		input = input.toLowerCase();
 		
 		int row = grid.getPlayer().getRow();						//start from the above square of the spy
 		int col = grid.getPlayer().getColumn();
