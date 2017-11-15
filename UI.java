@@ -86,6 +86,7 @@ public class UI
 	 */
 	public void gameLoop()
 	{
+		engine.getGrid().toggleDebug();
 		ArrayList<String> initialOptions = new ArrayList<String>();
 		initialOptions.add("look");
 		initialOptions.add("move");
@@ -113,10 +114,8 @@ public class UI
 				doMoveAction();
 				break;
 			case "shoot":
-				if(!engine.checkBullet()) {
-					System.out.println("You are out of ammo please try the other option.");
-					continue;
-				}
+				if(!engine.checkBullet())
+					System.out.println("You are out of ammo, please try another other option.");
 				else
 					doShootAction();
 			case "save":
@@ -140,6 +139,15 @@ public class UI
 			if(!initialOptions.get(0).equals("look"))			// This checks if "look" has been removed from the start of the list.
 				initialOptions.add(0, "look");					// And properly replaces "look" back into the beginning of the list if it was removed.
 		} while(!engine.gameOver());
+		
+		if(engine.victorious())
+		{
+			System.out.println("We have a winna!");
+		}
+		else
+		{
+			System.out.println("Phission mailed.");
+		}
 	}
 	
 	/**
