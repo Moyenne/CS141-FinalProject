@@ -118,7 +118,7 @@ public class Engine implements Serializable
 	 * String, the player will be allowed to move in a certain direction. The corresponding direction calls a
 	 * specific method due to unique movement rules.
 	 */
-	public boolean move(String input)
+	public void move(String input)
 	{
 		input = input.toLowerCase();
 		
