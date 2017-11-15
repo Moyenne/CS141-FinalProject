@@ -86,7 +86,6 @@ public class UI
 	 */
 	public void gameLoop()
 	{
-		engine.getGrid().toggleDebug();
 		ArrayList<String> initialOptions = new ArrayList<String>();
 		initialOptions.add("look");
 		initialOptions.add("move");
@@ -126,6 +125,9 @@ public class UI
 			case "quit":
 				// implement quit
 				break;
+			case "toggleDebugMode":
+				engine.getGrid().toggleDebug();
+				continue;
 			}
 			
 			engine.enemyTurn();
@@ -265,6 +267,8 @@ public class UI
 					throw new Exception();											// in other words they just pressed [ENTER]
 				
 				input = tokenizer.nextToken();
+				if(input.equalsIgnoreCase("toggleDebugMode"))
+					return "toggleDebugMode";
 				if(input.length() == 1 && Character.isDigit(input.charAt(0)))		// this checks if the user has just entered
 				{																	// the number of the option desired
 					integerInput = Integer.parseInt(input);
