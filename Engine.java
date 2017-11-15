@@ -181,6 +181,7 @@ public class Engine implements Serializable
 				{
 					victory = true;
 					gameOver = true;
+					return true;
 				}
 				return false;
 			}
