@@ -104,7 +104,7 @@ public class Grid implements Serializable
 		int n = rng.nextInt(2);						// This divides the possibility of the enemy being either within only the first six rows
 		if(n == 0)									// or within only the last 6 columns, thus always being at least 3 squares away from the
 		{											// player. When n == 0, the enemy will only spawn in a row < 6, when n == 1, the enemy
-			while(numOfEnemies < 5)					// will only spawn in a column >= 3.
+			while(numOfEnemies < 6)					// will only spawn in a column >= 3.
 			{
 				row = rng.nextInt(6);
 				col = rng.nextInt(9);
@@ -121,12 +121,10 @@ public class Grid implements Serializable
 					numOfEnemies++;
 				}
 			}
-			grid[row][col] = new Enemy(row,col);
-			enemies[numOfEnemies] = new Enemy(row, col);
 		}
 		else
 		{
-			while(numOfEnemies < 5)
+			while(numOfEnemies < 6)
 			{
 				row = rng.nextInt(9);
 				col = rng.nextInt(6) + 3;
@@ -143,8 +141,6 @@ public class Grid implements Serializable
 					numOfEnemies++;
 				}
 			}
-			grid[row][col] = new Enemy(row,col);
-			enemies[numOfEnemies] = new Enemy(row, col);
 		}
 		
 	}
