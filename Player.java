@@ -139,6 +139,11 @@ public class Player extends GridObject
 		radarEnabled = false;
 	}
 	
+	public int getInvincibilityLength()
+	{
+		return invincibilityLength;
+	}
+	
 	public boolean isAPlayer()
 	{
 		return true;
