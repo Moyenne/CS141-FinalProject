@@ -555,7 +555,7 @@ public class Engine implements Serializable
 						case 0://try to move enemy: row+1
 							if(erow<8)//out of bounds check
 							{
-								if (!(grid.getGridObject(erow+1,ecol).isARoom() && !(grid.getGridObject(erow+1,ecol).isAnEnemy())))//enemies can't enter rooms.
+								if (!(grid.getGridObject(erow+1,ecol).isARoom()) && !(grid.getGridObject(erow+1,ecol).isAnEnemy()))//enemies can't enter rooms.
 								{
 									grid.moveEnemy(enemyNumber,erow+1,ecol);
 									EnemyHasMoved=true;
@@ -566,7 +566,7 @@ public class Engine implements Serializable
 						case 1://move enemy column+1
 							if(ecol<8)
 							{
-								if (!(grid.getGridObject(erow,ecol+1).isARoom() && !(grid.getGridObject(erow,ecol+1).isAnEnemy())))
+								if (!(grid.getGridObject(erow,ecol+1).isARoom()) && !(grid.getGridObject(erow,ecol+1).isAnEnemy()))
 								{
 									grid.moveEnemy(enemyNumber,erow,ecol+1);
 									EnemyHasMoved=true;
@@ -576,7 +576,7 @@ public class Engine implements Serializable
 						case 2://move enemy row -1
 							if(erow<0)
 							{
-								if (!(grid.getGridObject(erow-1,ecol).isARoom() && !(grid.getGridObject(erow-1,ecol).isAnEnemy())))
+								if (!(grid.getGridObject(erow-1,ecol).isARoom()) && !(grid.getGridObject(erow-1,ecol).isAnEnemy()))
 								{
 									grid.moveEnemy(enemyNumber,erow-1,ecol);
 									EnemyHasMoved=true;
@@ -586,7 +586,7 @@ public class Engine implements Serializable
 						case 3://move enemy column -1
 							if(ecol<0)
 							{
-								if(!(grid.getGridObject(erow,ecol-1).isARoom() && !(grid.getGridObject(erow,ecol-1).isAnEnemy())))
+								if(!(grid.getGridObject(erow,ecol-1).isARoom()) && !(grid.getGridObject(erow,ecol-1).isAnEnemy()))
 								{
 									grid.moveEnemy(enemyNumber,erow,ecol-1);
 									EnemyHasMoved=true;
@@ -598,7 +598,6 @@ public class Engine implements Serializable
 			}
 			enemyNumber++;
 		}
-		
 	}
 	
 	/**
