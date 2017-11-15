@@ -1,6 +1,5 @@
 package edu.cpp.cs.cs141.FinalProject;
 
-import java.io.Serializable;
 import java.lang.Math;
 import java.util.Random;
 
@@ -11,7 +10,7 @@ import java.util.Random;
  * GridObjects interact.
  * @author Team 404
  */
-public class Engine implements Serializable
+public class Engine
 {
 	/**
 	 * A grid value, which instantiates all of the functions and contents of the Grid class.
@@ -331,7 +330,7 @@ public class Engine implements Serializable
 				}
 			}while(col < 8);
 		
-		else if(input=="right")
+		else if(input=="left")
 			do
 			{
 				col--;
