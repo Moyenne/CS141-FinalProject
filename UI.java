@@ -108,16 +108,15 @@ public class UI
 			{
 			case "look":
 				doLookAction();
-				initialOptions.remove(0);						// Removes the first element in the list, which would be "look",
-				continue;										// because the look action can only be done once per turn.
+				initialOptions.remove("look");			// Removes the first element in the list, which would be "look",
+				continue;								// because the look action can only be done once per turn.
 			case "move":
 				doMoveAction();
 				break;
 			case "shoot":
-				if(!engine.checkBullet())
-					System.out.println("You are out of ammo, please try another other option.");
-				else
-					doShootAction();
+				doShootAction();
+				initialOptions.remove("shoot");
+				break;
 			case "save":
 				// implement save
 				break;
@@ -136,8 +135,10 @@ public class UI
 				engine.getGrid().getPlayer().decreaseInvincibility();
 			}
 			
-			if(!initialOptions.get(0).equals("look"))			// This checks if "look" has been removed from the start of the list.
-				initialOptions.add(0, "look");					// And properly replaces "look" back into the beginning of the list if it was removed.
+			if(!initialOptions.contains("look"))									// This checks if "look" has been removed from the start of the list.
+				initialOptions.add(0, "look");										// And properly replaces "look" back into the beginning of the list if it was removed.
+			if(engine.checkBullet() && !initialOptions.contains("shoot"))			// True if the player has a bullet and the options list does not contain the "shoot" option.
+				initialOptions.add(initialOptions.indexOf("move") + 1, "shoot");	// "shoot" will always be after the "move" option
 		} while(!engine.gameOver());
 		
 		if(engine.victorious())
