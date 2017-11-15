@@ -293,6 +293,7 @@ public class Grid implements Serializable
 			enemies[enemyNumber].storeObject(grid[newRow][newCol]);
 			grid[newRow][newCol] = enemies[enemyNumber];
 		}
+		grid[newRow][newCol].changePosition(newRow, newCol);
 		enemy.changePosition(newRow, newCol);
 	}
 	
