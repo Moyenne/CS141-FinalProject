@@ -139,6 +139,7 @@ public class Engine implements Serializable
 			}
 			else if(objectUp.isAnItem()) {
 				grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+				activatePowerUp((Item)objectUp);;
 				//TODO
 				return true;
 			}
@@ -161,7 +162,11 @@ public class Engine implements Serializable
 		GridObject objectDown = grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
 		if(grid.getPlayer().getRow() < 8) {
 			if(objectDown.isARoom()) {
-				victorious(room);	
+				if(objectDown.getRoomNumber() == grid.getWinRoom())
+				{
+					victory = true;
+					gameOver = true;
+				}
 				return false;
 			}
 			else if(objectDown.isAnEnemy()) {
@@ -170,6 +175,7 @@ public class Engine implements Serializable
 			else if(objectDown.isAnItem()) {
 				//TODO
 				grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
+				activatePowerUp((Item)objectDown);
 				return true;
 			}
 			else {
@@ -199,6 +205,7 @@ public class Engine implements Serializable
 			}
 			else if(objectLeft.isAnItem()) {
 				grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
+				activatePowerUp((Item)objectLeft);
 				//TODO
 				return true;
 			}
@@ -228,6 +235,7 @@ public class Engine implements Serializable
 			}
 			else if(objectRight.isAnItem()) {
 				grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1);
+				activatePowerUp((Item)objectRight);
 				//TODO
 				return true;
 			}
