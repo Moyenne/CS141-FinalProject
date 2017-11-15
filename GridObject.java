@@ -63,7 +63,7 @@ public class GridObject implements Serializable
 		mark = ' ';
 	}
 	
-		public GridObject getStored()
+	public GridObject getStored()
 	{
 		return storedObj;
 	}
