@@ -576,7 +576,7 @@ public class Engine implements Serializable
 								fail1 = true;
 								break;
 							case 2://move enemy row -1
-								if(erow<0)
+								if(erow>0)
 								{
 									if (!(grid.getGridObject(erow-1,ecol).isARoom()) && !(grid.getGridObject(erow-1,ecol).isAnEnemy()))
 									{
@@ -587,7 +587,7 @@ public class Engine implements Serializable
 								fail2 = true;
 								break;
 							case 3://move enemy column -1
-								if(ecol<0)
+								if(ecol>0)
 								{
 									if(!(grid.getGridObject(erow,ecol-1).isARoom()) && !(grid.getGridObject(erow,ecol-1).isAnEnemy()))
 									{
