@@ -169,21 +169,21 @@ public class UI
 		ArrayList<String> dirOptions = new ArrayList<String>();
 		String input;
 		
-		if(engine.lookUp())
+		if(engine.shootUp())
 			dirOptions.add("up");
-		if(engine.lookRight())
+		if(engine.shootRight())
 			dirOptions.add("right");
-		if(engine.lookDown())
+		if(engine.shootDown())
 			dirOptions.add("down");
-		if(engine.lookLeft())
+		if(engine.shootLeft())
 			dirOptions.add("left");
 		
-		System.out.println("Please enter the direction you would like to look:");
+		System.out.println("Please enter the direction you would like to shoot:");
 		displayOptions(dirOptions);
 		input = getInput(dirOptions);
 		
 		if(engine.shoot(input)) 
-			System.out.println("Great!You killed the enemy.");
+			System.out.println("Great! You killed the enemy.");
 		else
 			System.out.println("You are missed.");	
 	}
