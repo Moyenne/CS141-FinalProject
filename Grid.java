@@ -272,6 +272,7 @@ public class Grid implements Serializable
 	public void moveEnemy(int enemyNumber, int newRow, int newCol)
 	{
 		Enemy enemy = enemies[enemyNumber];
+		GridObject temp = grid[newRow][newCol];
 		if(enemy.getStored() != null)
 		{
 			grid[newRow][newCol] = enemies[enemyNumber];
@@ -279,14 +280,13 @@ public class Grid implements Serializable
 		}
 		else
 		{
+			grid[newRow][newCol] = enemies[enemyNumber];
 			grid[enemy.getRow()][enemy.getColumn()] = new GridObject(enemy.getRow(),enemy.getColumn());
 		}
-		if(grid[newRow][newCol].isAnItem())
+		if(temp.isAnItem())
 		{
-			enemies[enemyNumber].storeObject(grid[newRow][newCol]);
-			grid[newRow][newCol] = enemies[enemyNumber];
+			enemies[enemyNumber].storeObject(temp);
 		}
-		grid[newRow][newCol].changePosition(newRow, newCol);
 		enemy.changePosition(newRow, newCol);
 	}
 	
