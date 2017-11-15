@@ -47,8 +47,8 @@ public class Grid implements Serializable
 	 */
 	private void generalGridSetup()
 	{
-		player = new Player(3, 4);
-		addGridObject(player, 3, 4);
+		player = new Player(8, 0);
+		addGridObject(player, 8, 0);
 		roomSetup();
 		enemySetup();
 		itemSetup();
@@ -121,8 +121,8 @@ public class Grid implements Serializable
 					numOfEnemies++;
 				}
 			}
-			grid[3][3] = new Enemy(3,3);
-			enemies[5] = new Enemy(3, 3);
+			grid[row][col] = new Enemy(row,col);
+			enemies[numOfEnemies] = new Enemy(row, col);
 		}
 		else
 		{
@@ -143,8 +143,8 @@ public class Grid implements Serializable
 					numOfEnemies++;
 				}
 			}
-			grid[3][3] = new Enemy(3,3);
-			enemies[5] = new Enemy(3, 3);
+			grid[row][col] = new Enemy(row,col);
+			enemies[numOfEnemies] = new Enemy(row, col);
 		}
 		
 	}
@@ -190,13 +190,13 @@ public class Grid implements Serializable
 			}
 		}
 		Star star = new Star(0,0);
-		int col = 0;
-		int row = 7;
+		//int col = 0;
+		//int row = 7;
 		positionGood = false;
 		while(!positionGood)
 		{
-			//int col = new Random().nextInt(9);
-			//int row = new Random().nextInt(9);
+			int col = new Random().nextInt(9);
+			int row = new Random().nextInt(9);
 			if(getGridObject(row, col) == null)
 			{
 				positionGood = true;
@@ -206,8 +206,8 @@ public class Grid implements Serializable
 			else
 			{
 				positionGood = false;
-				col = 1;
-				row = 8;
+				//col = 1;
+				//row = 8;
 			}
 		}
 	}
