@@ -464,37 +464,54 @@ public class Engine implements Serializable
 			else
 			{
 				Random dir= new Random();
-				switch (dir.nextInt(4))
+				boolean EnemyHasMoved=false;
+				do
 				{
-					case 0://try to move enemy: row+1
-						if(erow<8)//out of bounds check
-						{
-							if (!(grid.getGridObject(erow+1,ecol).isARoom()))//enemies can't enter rooms.
-								grid.moveEnemy(enemyNumber,erow+1,ecol);
-						}
-						break;
-					case 1://move enemy column+1
-						if(ecol<8)
-						{
-							if (!(grid.getGridObject(erow,ecol+1).isARoom()))
-								grid.moveEnemy(enemyNumber,erow,ecol+1);
-						}
-						break;
-					case 2://move enemy row -1
-						if(erow<0)
-						{
-							if (!(grid.getGridObject(erow-1,ecol).isARoom()))
-								grid.moveEnemy(enemyNumber,erow-1,ecol);
-						}
-						break;
-					case 3://move enemy column -1
-						if(ecol<0)
-						{
-							if(!(grid.getGridObject(erow,ecol-1).isARoom()))
-								grid.moveEnemy(enemyNumber,erow,ecol-1);
-						}
-						break;
-				}
+					switch (dir.nextInt(4))
+					{
+						case 0://try to move enemy: row+1
+							if(erow<8)//out of bounds check
+							{
+								if (!(grid.getGridObject(erow+1,ecol).isARoom()))//enemies can't enter rooms.
+								{
+									grid.moveEnemy(enemyNumber,erow+1,ecol);
+									EnemyHasMoved=true;
+								}
+								
+							}
+							break;
+						case 1://move enemy column+1
+							if(ecol<8)
+							{
+								if (!(grid.getGridObject(erow,ecol+1).isARoom()))
+								{
+									grid.moveEnemy(enemyNumber,erow,ecol+1);
+									EnemyHasMoved=true;
+								}
+							}
+							break;
+						case 2://move enemy row -1
+							if(erow<0)
+							{
+								if (!(grid.getGridObject(erow-1,ecol).isARoom()))
+								{
+									grid.moveEnemy(enemyNumber,erow-1,ecol);
+									EnemyHasMoved=true;
+								}
+							}
+							break;
+						case 3://move enemy column -1
+							if(ecol<0)
+							{
+								if(!(grid.getGridObject(erow,ecol-1).isARoom()))
+								{
+									grid.moveEnemy(enemyNumber,erow,ecol-1);
+									EnemyHasMoved=true;
+								}
+							}
+							break;
+					}
+				}while(!EnemyHasMoved);
 			}
 			enemyNumber++;
 		}
