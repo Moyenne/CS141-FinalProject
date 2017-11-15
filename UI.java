@@ -166,16 +166,21 @@ public class UI
 	}
 
 	private void doShootAction() {
+		ArrayList<String> dirOptions = new ArrayList<String>();
+		String input;
 		
-		System.out.println("Please enter the direction you would like to shoot:");
-		String input = keyboard.nextLine();
-		input = input.toLowerCase();
+		if(engine.lookUp())
+			dirOptions.add("up");
+		if(engine.lookRight())
+			dirOptions.add("right");
+		if(engine.lookDown())
+			dirOptions.add("down");
+		if(engine.lookLeft())
+			dirOptions.add("left");
 		
-		while (input != "up" && input != "down" && input != "right" && input != "left" ) {
-			System.out.print("\t invalid input, please try again: ");
-			input = keyboard.nextLine();
-			input = input.toLowerCase();
-		}
+		System.out.println("Please enter the direction you would like to look:");
+		displayOptions(dirOptions);
+		input = getInput(dirOptions);
 		
 		if(engine.shoot(input)) 
 			System.out.println("Great!You killed the enemy.");
