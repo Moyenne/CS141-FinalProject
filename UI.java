@@ -125,7 +125,7 @@ public class UI
 			case "quit":
 				// implement quit
 				break;
-			case "toggleDebugMode":
+			case "TDM":
 				engine.getGrid().toggleDebug();
 				continue;
 			}
