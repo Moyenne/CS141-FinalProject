@@ -113,8 +113,10 @@ public class UI
 				doMoveAction();
 				break;
 			case "shoot":
-				if(!engine.checkBullet())
-					System.out.println("You are out of ammo, please try another other option.");
+				if(!engine.checkBullet()) {
+					System.out.println("You are out of ammo please try the other option.");
+					continue;
+				}
 				else
 					doShootAction();
 			case "save":
