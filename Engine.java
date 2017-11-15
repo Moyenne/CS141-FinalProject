@@ -546,6 +546,10 @@ public class Engine implements Serializable
 			}
 			else
 			{
+				boolean fail0 = false;
+				boolean fail1 = false;
+				boolean fail2 = false;
+				boolean fail3 = false;
 				Random dir = new Random();
 				boolean EnemyHasMoved=false;
 				do
@@ -559,9 +563,9 @@ public class Engine implements Serializable
 								{
 									grid.moveEnemy(enemyNumber,erow+1,ecol);
 									EnemyHasMoved=true;
-								}
-								
+								}								
 							}
+							fail0 = true;
 							break;
 						case 1://move enemy column+1
 							if(ecol<8)
@@ -572,6 +576,7 @@ public class Engine implements Serializable
 									EnemyHasMoved=true;
 								}
 							}
+							fail1 = true;
 							break;
 						case 2://move enemy row -1
 							if(erow<0)
@@ -582,6 +587,7 @@ public class Engine implements Serializable
 									EnemyHasMoved=true;
 								}
 							}
+							fail2 = true;
 							break;
 						case 3://move enemy column -1
 							if(ecol<0)
@@ -592,7 +598,12 @@ public class Engine implements Serializable
 									EnemyHasMoved=true;
 								}
 							}
+							fail3 = true;
 							break;
+					}
+					if(fail0 && fail1 && fail2 && fail3)
+					{
+						EnemyHasMoved = true;
 					}
 				}while(!EnemyHasMoved);
 			}
