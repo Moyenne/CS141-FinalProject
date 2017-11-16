@@ -662,4 +662,29 @@ public class Engine
 	public Grid getGrid() {
 		return grid;
 	}
+
+	/**
+	 * Assuming there is a room below Player, this method will return true
+	 * if that room contains the briefcase and it will properly alter the
+	 * appropriate boolean fields to indicate the game is over and the player
+	 * is victorious. Otherwise, it just returns false;
+	 * @return True if the room below the player contains the briefcase, false otherwise
+	 */
+	public boolean roomHasBriefcase() {
+		
+	}
+
+	/**
+	 * This method will determine if there is a room below Player, and it should
+	 * return true if and only if a room exists below Player and that the room has not 
+	 * been checked yet. Otherwise, it just returns false.
+	 * 
+	 * <p>Make sure this method can differentiate between rooms that have and have not been
+	 * checked.
+	 * @return True if there exists an unchecked room below Player, false if there is no room
+	 * or if a room does exist, it has already been checked
+	 */
+	public boolean canCheckRoom() {
+		
+	}
 }
