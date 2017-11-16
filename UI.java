@@ -125,7 +125,7 @@ public class UI
 			case "quit":
 				// implement quit
 				break;
-			case "TDM":
+			case "tdm":
 				engine.getGrid().toggleDebug();
 				continue;
 			}
@@ -267,8 +267,8 @@ public class UI
 					throw new Exception();											// in other words they just pressed [ENTER]
 				
 				input = tokenizer.nextToken();
-				if(input.equalsIgnoreCase("toggleDebugMode"))
-					return "toggleDebugMode";
+				if(input.equalsIgnoreCase("tdm"))
+					return "tdm";
 				if(input.length() == 1 && Character.isDigit(input.charAt(0)))		// this checks if the user has just entered
 				{																	// the number of the option desired
 					integerInput = Integer.parseInt(input);
