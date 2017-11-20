@@ -94,18 +94,18 @@ public class UI
 	 */
 	public void printHelpMessage() 
 	{
-		System.out.println("\nWelcome, when you start the game you start in the bottom left of a nine space by nine space building. \n"
+		System.out.println("\nWelcome! When you start the game you start in the bottom left of a nine space by nine space building. \n"
 							+ "There are six incredibly deadly ninjas randomly positioned around the room at least three spaces away \n"
 							+ "from your initial position patrolling the building. \n" + "\nThe building you are in is pitch black"
-							+ " and there are nine rooms throughout the building, your objective is to make your way to the briefcase"
+							+ " and there are nine rooms throughout the building. Your objective is to make your way to the briefcase"
 							+ "\nlocated in one of the rooms. The rooms may only be entered from the north side.\n"
-							+ "\nBeware, however, if you move into a spot with a randomly patrolling ninja they will stab you and take one of your three lives."
-							+ "\nIf you lose one of your lives, you respawn in the bottom left corner spot again."
-							+ "\n\nTo make sure you make your way to the briefcase in one piece, you are equipped with night vision"
+							+ "\nBeware, however, for if you move into a spot with a randomly patrolling ninja they will stab you and take one of your three lives."
+							+ "\nIf you lose one of your lives, you respawn in the bottom left corner space again."
+							+ "\n\nTo make sure you can make your way to the briefcase in one piece, you are equipped with night vision"
 							+ "\ngoggles that allow you to see two spaces in any direction at the start of your turn.\n"
 							+ "\nYou also may shoot your gun or move a space forward. If you shoot, any ninja struck with a bullet die instantly.\n"
 							+ "\nAs you are only equipped with goggles and a single bullet, there are three power-ups placed around the building to aid you."
-							+ "\nThere is another bullet, that will top your gun off if it's empty, a radar that shows where the briefcase is,"
+							+ "\nThere is another bullet that will top your gun off if it's empty, a radar that shows where the briefcase is,"
 							+ "\nas well as an invincibility power-up that will render you invulnerable for five turns.\n"
 							+ "\nIf you manage to reach the briefcase alive, you've won. \nGood luck!\n");
 
@@ -181,7 +181,7 @@ public class UI
 			case "quit":
 				// implement quit
 				break;
-			case "tdm":
+			case "tdm404":
 				engine.getGrid().toggleDebug();
 				continue;
 			}
@@ -200,6 +200,10 @@ public class UI
 			
 			if(engine.canCheckRoom() && !initialOptions.contains("check"))			// Checks if a player is now on top of a room and
 				initialOptions.add(1, "check");										// adds the "check" option if it does not exists in the list.
+			if(!engine.canCheckRoom() && initialOptions.contains("check"))
+			{
+				initialOptions.remove(1);
+			}
 		} while(!engine.gameOver());
 		
 		if(engine.victorious())
@@ -331,8 +335,8 @@ public class UI
 					throw new Exception();											// in other words they just pressed [ENTER]
 				
 				input = tokenizer.nextToken();
-				if(input.equalsIgnoreCase("tdm"))
-					return "tdm";
+				if(input.equalsIgnoreCase("tdm404"))
+					return "tdm404";
 				if(input.length() == 1 && Character.isDigit(input.charAt(0)))		// this checks if the user has just entered
 				{																	// the number of the option desired
 					integerInput = Integer.parseInt(input);
