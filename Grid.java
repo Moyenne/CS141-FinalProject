@@ -18,8 +18,13 @@ public class Grid implements Serializable
 	 */
 	private GridObject[][] grid = new GridObject[9][9];
 	
+	/**
+	 * An array that stores all of the Enemies that will have a corresponding object on the
+	 * grid. This is used to keep track of stored objects and dead enemies.
+	 */
 	private Enemy[] enemies = new Enemy[6];
 	
+	//potentially delete
 	private Item[] items = new Item[3];
 	
 	/**
@@ -28,8 +33,17 @@ public class Grid implements Serializable
 	 */
 	private Player player;
 	
+	/**
+	 * An int value. This value is set within the roomSetup method, being equal to the random
+	 * number generated to decide which room will contain the briefcase.
+	 */
 	private int winRoom;
 	
+	/**
+	 * A boolean value. This value can be toggled using a key String (tdm404) when asked for an
+	 * input by the UI, and its value determines the total visibility of the grid that is created
+	 * by the getGrid method and printed by the UI.
+	 */
 	private boolean debugOn = false;
 	
 	/**
@@ -92,7 +106,8 @@ public class Grid implements Serializable
 	
 	/**
 	 * A method that places six Enemies throughout the grid, according to inherent rules,
-	 * as well as the fact that two GridObjects cannot occupy the same space.
+	 * as well as the fact that two GridObjects cannot occupy the same space. Enemies placed
+	 * on the grid are also added to the enemies array.
 	 */
 	private void enemySetup()
 	{
@@ -161,7 +176,7 @@ public class Grid implements Serializable
 			{
 				positionGood = true;
 				addGridObject(bullet, row, col);
-				items[0] = new Bullet(row, col);
+				items[0] = new Bullet(row, col); //potentially delete
 			}
 			else
 			{
@@ -178,7 +193,7 @@ public class Grid implements Serializable
 			{
 				positionGood = true;
 				addGridObject(radar, row, col);
-				items[1] = new Radar(row, col);
+				items[1] = new Radar(row, col); //potentially delete
 			}
 			else
 			{
@@ -197,7 +212,7 @@ public class Grid implements Serializable
 			{
 				positionGood = true;
 				addGridObject(star, row, col);
-				items[2] = new Star(row, col);
+				items[2] = new Star(row, col); //potentially delete
 			}
 			else
 			{
@@ -209,7 +224,7 @@ public class Grid implements Serializable
 	}
 	
 	/**
-	 * A convenient method that allows the user to add a specific GridObject to a specific
+	 * A convenience method that allows the user to add a specific GridObject to a specific
 	 * location on the grid.
 	 */
 	public void addGridObject(GridObject gridObject, int row, int col)
@@ -218,8 +233,10 @@ public class Grid implements Serializable
 	}
 	
 	/**
-	 * A convenient method that allows the user to remove a GridObject from a specific
-	 * location on the grid, assuming there was a GridObject at that location.
+	 * A convenience method that allows the user to remove a GridObject from a specific
+	 * location on the grid, assuming there was a GridObject at that location. A default
+	 * GridObject is placed where the old GridObject is to be deleted, as there are never
+	 * null values in the grid array.
 	 */
 	public void removeGridObject(int row, int col)
 	{
@@ -234,7 +251,7 @@ public class Grid implements Serializable
 	}
 	
 	/**
-	 * A convenient method that allows the user to access a GridObject from a specific
+	 * A convenience method that allows the user to access a GridObject from a specific
 	 * location on the grid, assuming there is a GridObject at that location.
 	 */
 	public GridObject getGridObject(int row, int col)
@@ -243,9 +260,9 @@ public class Grid implements Serializable
 	}
 	
 	/**
-	 * A convenient method that allows the user to move a GridObject from a specific
+	 * A convenience method that allows the user to move a GridObject from a specific
 	 * location on the grid to another location, assuming there is a GridObject at the
-	 * initial location.
+	 * initial location. The two GridObject locations are swapped, simulating movement.
 	 */
 	public void moveGridObject(int currentRow, int currentCol, int newRow, int newCol)
 	{
@@ -256,6 +273,11 @@ public class Grid implements Serializable
 		grid[currentRow][currentCol].changePosition(currentRow, currentCol);
 	}
 	
+	/**
+	 * A method that allows the user to move specifically the Player on the grid, which is
+	 * restricted by single-space movement and unique item interaction. This prevents item
+	 * duplication and other potential bugs.
+	 */
 	public void movePlayer(int currentRow, int currentCol, int newRow, int newCol)
 	{
 		GridObject temp = grid[newRow][newCol];
@@ -269,6 +291,11 @@ public class Grid implements Serializable
 		}
 	}
 	
+	/**
+	 * A method that allows the user to move a specific enemy, decided by the enemy's number, on
+	 * the grid, which is restricted by single-space movement and unique item interaction. This allows
+	 * for enemies to pass over items, die on top of items, and more without creating potential bugs.
+	 */
 	public void moveEnemy(int enemyNumber, int newRow, int newCol)
 	{
 		Enemy enemy = enemies[enemyNumber];
@@ -291,21 +318,32 @@ public class Grid implements Serializable
 		enemy.changePosition(newRow, newCol);
 	}
 	
+	/**
+	 * A simple method that returns the enemies array for the Engine to access for appropriate use within
+	 * the enemyTurn method.
+	 */
 	public Enemy[] getEnemyList()
 	{
 		return enemies;
 	}
 	
+	/**
+	 * A simple method that takes an int parameter, and returns the specific Enemy object in the enemies
+	 * array that matches that int value, allowing for the Engine to access for appropriate use within
+	 * the enemyTurn method.
+	 */
 	public Enemy getEnemy(int enemyNumber)
 	{
 		return enemies[enemyNumber];
 	}
 	
+	//potentially delete
 	public Item[] getItemList()
 	{
 		return items;
 	}
 	
+	//potentially delete
 	public Item getItem(int itemNumber)
 	{
 		return items[itemNumber];
@@ -319,6 +357,9 @@ public class Grid implements Serializable
 		return player;
 	}
 	
+	/**
+	 * A simple method that returns the int value stored in the winRoom variable.
+	 */
 	public int getWinRoom()
 	{
 		return winRoom;
@@ -326,16 +367,10 @@ public class Grid implements Serializable
 	
 	/**
 	 * This method returns a string ready to be printed to the screen. 
-	 * 
 	 * @return a string containing the whole grid
 	 */
 	public String getGrid()
 	{
-		/*
-		 * ***NOTE***
-		 * getGrid() still needs a way to implement the 'look' action of the player
-		 * so far it only sets the adjacent blocks visible to the player
-		 */
 		if(debugOn)
 		{
 			for(int i = 0; i < 9; i++)
@@ -370,6 +405,9 @@ public class Grid implements Serializable
 		return output;
 	}
 	
+	/**
+	 * A method that takes coordinate parameters to set the visibility of an individual space on the grid to true.
+	 */
 	public void setPositionVisibility(int row, int col)
 	{
 		grid[row][col].setVisibility(true);
@@ -430,20 +468,10 @@ public class Grid implements Serializable
 		}
 	}
 	
-	/*
-	 * This method is for debugging the grid. It shows every single entity within the game.
-	 * It essentially sets all squares in the grid to be visible to the player.
-	 * We should delete this once the whole project is finished.
+	/**
+	 * A method that toggles the current boolean value of debugOn, setting it to true when it is false, and false when
+	 * it is true. Is called by the UI when the appropriate toggle string is entered. (Hint: it's tdm404)
 	 */
-	public String getGridDebug()
-	{
-		for(int i = 0; i < 9; i++)
-			for(int j = 0; j < 9; j++)
-				grid[i][j].setVisibility(true);
-		
-		return getGrid();
-	}
-	
 	public void toggleDebug()
 	{
 		if(debugOn)
