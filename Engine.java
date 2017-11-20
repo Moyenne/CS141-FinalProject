@@ -32,12 +32,6 @@ public class Engine
 	private boolean victory = false;
 	
 	/**
-	 * A boolean value that determines if it is the player's turn to take an action. If this is false,
-	 * then the enemies take their turn automatically.
-	 */
-	private boolean isPlayerTurn = true;
-	
-	/**
 	 * A simple method that returns the boolean value stored by the gameOver variable.
 	 */
 	public boolean gameOver()
@@ -51,26 +45,6 @@ public class Engine
 	public boolean victorious()
 	{
 		return victory;
-	}
-	
-	/**
-	 * A simple method that returns the boolean value stored by the isPlayerTurn variable.
-	 */
-	public boolean isPlayerTurn()
-	{
-		return isPlayerTurn;
-	}
-	
-	public void toggleTurn()
-	{
-		if(isPlayerTurn)
-		{
-			isPlayerTurn = false;
-		}
-		else
-		{
-			isPlayerTurn = true;
-		}
 	}
 	
 	/**
@@ -88,28 +62,6 @@ public class Engine
 		{
 			return gameOver();
 		}
-	}
-	
-	/**
-	 * A method that accepts a String value as a parameter. Depending on the value of this String,
-	 * the player will be allowed to do one of the following: move, shoot, or look. A failure to meet
-	 * any of these three values will result in an error message. A boolean value is returned depending
-	 * on if there was a success or failure with the player's choice.
-	 */
-	public boolean playerTurn(String input)
-	{
-		//Depending on player choice to move, shoot, look, has to input another value
-		return checkInput(input);
-	}
-	
-	/**
-	 * A method that accepts a String as a parameter. This String is compared to nuerous pre-determined
-	 * Strings to make sure the player has input a valid choice or not. A boolean value is returned depending
-	 * on the result.
-	 */
-	public boolean checkInput(String input)
-	{
-		return true;
 	}
 	
 	/**
@@ -652,7 +604,6 @@ public class Engine
 		grid = new Grid();
 		gameOver = false;
 		victory = false;
-		isPlayerTurn = true;
 	}
 	
 	// This method returns the grid that is being used in this Engine class.
@@ -670,8 +621,18 @@ public class Engine
 	 * is victorious. Otherwise, it just returns false;
 	 * @return True if the room below the player contains the briefcase, false otherwise
 	 */
-	public boolean roomHasBriefcase() {
-		
+	public boolean roomHasBriefcase()
+	{
+		if(grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn()).getRoomNumber() == grid.getWinRoom())
+		{
+			victory = true;
+			gameOver = true;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -684,7 +645,15 @@ public class Engine
 	 * @return True if there exists an unchecked room below Player, false if there is no room
 	 * or if a room does exist, it has already been checked
 	 */
-	public boolean canCheckRoom() {
-		
+	public boolean canCheckRoom()
+	{
+		if(grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn()).isARoom())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
