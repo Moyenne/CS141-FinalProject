@@ -10,6 +10,10 @@ import java.io.Serializable;
  */
 public class GridObject implements Serializable
 {
+	/**
+	 * A GridObject value that allows for any GridObject to store another GridObject, allowing
+	 * moving objects to "pass over" each other". This is only implemented by the Enemy class.
+	 */
 	private GridObject storedObj = null;
 	
 	/**
@@ -63,21 +67,35 @@ public class GridObject implements Serializable
 		mark = ' ';
 	}
 	
+	/**
+	 * A simple method that returns the GridObject being stored by the storedObj variable.
+	 */
 	public GridObject getStored()
 	{
 		return storedObj;
 	}
 	
+	/**
+	 * A method that accepts a GridObject as a parameter, setting this GridObject to the storedObj variable.
+	 */
 	public void storeObject(GridObject passOver)
 	{
 		storedObj = passOver;
 	}
 	
+	/**
+	 * A method that removes the currently stored GridObject, assuming there is one. The value is set to null afterwards,
+	 * allowing for other objects to take its place..
+	 */
 	public void removeStored()
 	{
 		storedObj = null;
 	}
 	
+	/**
+	 * A method that checks the current value of storedObj, returning true if the value is null, and false if there is a
+	 * GridObject currently being stored..
+	 */
 	public boolean isStorageEmpty()
 	{
 		if(storedObj == null)
@@ -137,11 +155,19 @@ public class GridObject implements Serializable
 		return false;
 	}
 	
+	/**
+	 * A simple method that returns false always, confirming this is, in fact, not an enemy. This is
+	 * used for grid scans later on in the Engine and Grid classes.
+	 */
 	public boolean isAnEnemy()
 	{
 		return false;
 	}
 	
+	/**
+	 * A simple method that returns false always, confirming this is, in fact, not a player. This is
+	 * used for grid scans later on in the Engine and Grid classes.
+	 */
 	public boolean isAPlayer()
 	{
 		return false;
@@ -155,11 +181,17 @@ public class GridObject implements Serializable
 		return secret;
 	}
 	
+	/**
+	 * A simple method that returns None, the default type value for all generic GridObjects.
+	 */
 	public String getType()
 	{
 		return "None";
 	}
 	
+	/**
+	 * A simple method that returns 0, the default room number value for all none Room GridObjects.
+	 */
 	public int getRoomNumber()
 	{
 		return 0;
