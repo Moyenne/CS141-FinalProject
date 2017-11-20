@@ -647,9 +647,16 @@ public class Engine
 	 */
 	public boolean canCheckRoom()
 	{
-		if(grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn()).isARoom())
+		if((grid.getPlayer().getRow() + 1) < 9)
 		{
-			return true;
+			if(grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn()).isARoom())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{
