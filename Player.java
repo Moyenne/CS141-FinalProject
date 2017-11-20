@@ -18,6 +18,10 @@ public class Player extends GridObject
 	 */
 	private boolean hasBullet = true;
 	
+	/**
+	 * Returns whether or not the Player has enabled the Radar item. This is checked in the Grid class to see if the winning
+	 * room's number should be printed.
+	 */
 	private boolean radarEnabled = false;
 	
 	/**
@@ -94,16 +98,25 @@ public class Player extends GridObject
 		}
 	}
 	
+	/**
+	 * A simple method that returns the boolean value stored by the radarEnabled variable.
+	 */
 	public boolean radarEnabled()
 	{
 		return radarEnabled;
 	}
 	
+	/**
+	 * A simple method that sets the boolean value stored by the radarEnabled variable to true.
+	 */
 	public void enableRadar()
 	{
 		radarEnabled = true;
 	}
 	
+	/**
+	 * A simple method that sets the boolean value stored by the radarEnabled variable to false.
+	 */
 	public void disableRadar()
 	{
 		radarEnabled = false;
@@ -146,11 +159,19 @@ public class Player extends GridObject
 		}
 	}
 	
+	/**
+	 * A simple method that returns the int value stored by the invincibilityLength variable, showing how long
+	 * the Player will be invincibile for.
+	 */
 	public int getInvincibilityLength()
 	{
 		return invincibilityLength;
 	}
 	
+	/**
+	 * A simple method that returns true always, confirming this is, in fact, a player. This is
+	 * used for grid scans later on in the Engine and Grid classes.
+	 */
 	public boolean isAPlayer()
 	{
 		return true;
