@@ -46,7 +46,9 @@ public class UI
 	}
 	
 	/**
-	 * A simple method that prints out a welcome message to the player when the game is first launched.
+	 * A simple method that prints out a welcome message to the player when the game is first launched,
+	 * as well as printing out the main menu, which allows the player to start the game, access the help
+	 * menu, load a saved game, and exit.
 	 */
 	public void printStartMessage()
 	{
@@ -91,14 +93,15 @@ public class UI
 	
 	/**
 	 * A simple method that prints out a help page when the player chooses to access the help "menu".
+	 * This details the goal, rules, and other aspects of the game.
 	 */
 	public void printHelpMessage() 
 	{
 		System.out.println("\nWelcome! When you start the game you start in the bottom left of a nine space by nine space building. \n"
 							+ "There are six incredibly deadly ninjas randomly positioned around the room at least three spaces away \n"
 							+ "from your initial position patrolling the building. \n" + "\nThe building you are in is pitch black"
-							+ " and there are nine rooms throughout the building. Your objective is to make your way to the briefcase"
-							+ "\nlocated in one of the rooms. The rooms may only be entered from the north side.\n"
+							+ " and there are nine rooms throughout the building. Your mission, if you choose to accept it,"
+							+ "\nis to make your way to the briefcase located in one of the rooms. The rooms may only be entered from the north side.\n"
 							+ "\nBeware, however, for if you move into a spot with a randomly patrolling ninja they will stab you and take one of your three lives."
 							+ "\nIf you lose one of your lives, you respawn in the bottom left corner space again."
 							+ "\n\nTo make sure you can make your way to the briefcase in one piece, you are equipped with night vision"
@@ -109,15 +112,6 @@ public class UI
 							+ "\nas well as an invincibility power-up that will render you invulnerable for five turns.\n"
 							+ "\nIf you manage to reach the briefcase alive, you've won. \nGood luck!\n");
 
-	}
-	
-	/**
-	 * A method that allows the player to choose how to progress: Start a new game, load a saved game,
-	 * access the help menu, or quit the game. This is determined by an int input.
-	 */
-	public int mainMenu()
-	{
-		return 0;
 	}
 	
 	/**
@@ -248,6 +242,12 @@ public class UI
 		engine.look(input);
 	}
 
+	/**
+	 * This method implements the "move" action that the player can do.
+	 * It first checks for all of the possible directions the player can move,
+	 * then prompts the user for a valid choice and finally implements that
+	 * action in the game engine.
+	 */
 	private void doMoveAction() {
 		ArrayList<String> dirOptions = new ArrayList<String>();
 		String input;
@@ -268,6 +268,12 @@ public class UI
 		engine.move(input);
 	}
 
+	/**
+	 * This method implements the "shoot" action that the player can do.
+	 * It first checks for all of the possible directions the player can shoot,
+	 * then prompts the user for a valid choice and finally implements that
+	 * action in the game engine.
+	 */
 	private void doShootAction() {
 		ArrayList<String> dirOptions = new ArrayList<String>();
 		String input;
