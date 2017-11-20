@@ -24,6 +24,10 @@ public class Radar extends Item
 		mark = 'R';
 	}
 	
+	/**
+	 * Applies the effect of this item. This effect switches the boolean value of the Player's radarEnabled
+	 * variable, allowing the Player to see the room that contains the briefcase.
+	 */
 	public void applyItemEffect(Player target)
 	{
 		if(!target.radarEnabled())
