@@ -49,7 +49,7 @@ public class Engine
 	
 	/**
 	 * A method that returns true or false depending on whether or not the player has satisfied
-	 * the necessary conditions to lose the game.
+	 * the necessary conditions to lose the game (losing all 3 lives).
 	 */
 	public boolean checkLoseCondition()
 	{
@@ -66,8 +66,8 @@ public class Engine
 	
 	/**
 	 * The hub move method, a method that accepts a String value as a parameter. Depending on the value of this
-	 * String, the player will be allowed to move in a certain direction. The corresponding direction calls a
-	 * specific method due to unique movement rules.
+	 * String, the player will be allowed to move in a certain direction. The corresponding directions call the
+	 * movePlayer method with unique coordinates.
 	 */
 	public void move(String input)
 	{
@@ -91,6 +91,8 @@ public class Engine
 	
 	/**
 	 * A method that determines if a player is able to move upwards, according to specific movement rules.
+	 * This properly implements interactions with Items, Enemies, and Rooms, granting abilities, killing the
+	 * player, and restricting movement respectively.
 	 */
 	 // modified by Fengyi Guo
 	public boolean moveUp()
@@ -124,13 +126,16 @@ public class Engine
 	
 	/**
 	 * A method that determines if a player is able to move downwards, according to specific movement rules.
+	 * This properly implements interactions with Items, Enemies, and Rooms, granting abilities, killing the
+	 * player, and restricting movement respectively.
 	 */
 	public boolean moveDown()
 	{
 		
 		if(grid.getPlayer().getRow() < 8) {
 			GridObject objectDown = grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
-			if(objectDown.isARoom()) {
+			if(objectDown.isARoom())
+			{
 				return false;
 			}
 			else if(objectDown.isAnEnemy()) {
@@ -156,6 +161,8 @@ public class Engine
 	
 	/**
 	 * A method that determines if a player is able to move leftwards, according to specific movement rules.
+	 * This properly implements interactions with Items, Enemies, and Rooms, granting abilities, killing the
+	 * player, and restricting movement respectively.
 	 */
 	public boolean moveLeft()
 	{
@@ -187,6 +194,8 @@ public class Engine
 	
 	/**
 	 * A method that determines if a player is able to move rightwards, according to specific movement rules.
+	 * This properly implements interactions with Items, Enemies, and Rooms, granting abilities, killing the
+	 * player, and restricting movement respectively.
 	 */
 	public boolean moveRight()
 	{
@@ -217,7 +226,11 @@ public class Engine
 	}
 	
 	
-	// modified by Dongri Zhu
+	/**
+	 * A simple method that makes sure that the player actually has a bullet to shoot with. Created to simplify repeated
+	 * method calls in the various shoot methods.
+	 * @return
+	 */
 	public boolean checkBullet() {							//check the bullet before shoot in the UI
 		if(grid.getPlayer().hasBullet())
 			return true;
@@ -226,8 +239,8 @@ public class Engine
 	
 	/**
 	 * The hub shoot method, a method that accepts a String value as a parameter. Depending on the value of this
-	 * String, the player will be allowed to shoot in a certain direction. The corresponding direction calls a
-	 * specific method due to unique shooting rules.
+	 * String, the player will be allowed to shoot in a certain direction. Rules are checked beforehand by the
+	 * individual shootDirection methods, as well as being checked whenever this method is called directly.
 	 */
 	public boolean shoot(String input)
 	{	
@@ -294,6 +307,7 @@ public class Engine
 	
 	/**
 	 * A method that determines if a player is able to shoot upwards, according to specific shooting rules.
+	 * This determines if the player hits an enemy or not, returning false on a miss, and true on a hit.
 	 */
 	public boolean shootUp()
 	{	
@@ -308,6 +322,7 @@ public class Engine
 
 	/**
 	 * A method that determines if a player is able to shoot downwards, according to specific shooting rules.
+	 * This determines if the player hits an enemy or not, returning false on a miss, and true on a hit.
 	 */
 	public boolean shootDown()
 	{
@@ -323,6 +338,7 @@ public class Engine
 	
 	/**
 	 * A method that determines if a player is able to shoot rightwards, according to specific shooting rules.
+	 * This determines if the player hits an enemy or not, returning false on a miss, and true on a hit.
 	 */
 	public boolean shootRight()
 	{
@@ -338,6 +354,7 @@ public class Engine
 	
 	/**
 	 * A method that determines if a player is able to shoot leftwards, according to specific shooting rules.
+	 * This determines if the player hits an enemy or not, returning false on a miss, and true on a hit.
 	 */
 	public boolean shootLeft()
 	{	
@@ -350,6 +367,10 @@ public class Engine
 		return true;
 	}
 	
+	/**
+	 * A method that calls a specific Enemy's die method, as well as completely removing that particular enemy
+	 * from the grid.
+	 */
 	private void enemyIsKilled(int row, int col)								// modified by Dongri
 	{
 		Enemy dying = (Enemy)grid.getGridObject(row, col);
@@ -462,7 +483,8 @@ public class Engine
 	
 	/**
 	 * A method that details the functions to be performed on the enemy turn. The enemy either moves randomly or
-	 * kills the player. This applies to all enemies.
+	 * kills the player. This applies to all enemies that are alive, which is checked for each enemy originally
+	 * placed on the grid. Movement is decided randomly, and is checked to be valid by a number of failsafe cases.
 	 */
 	public void enemyTurn()
 	{
@@ -565,7 +587,7 @@ public class Engine
 	
 	/**
 	 * A simple method that returns a String detailing the player's items, lives, action options, menu options, and
-	 * other useful information.
+	 * other useful information, such as which power-ups have been obtained.
 	 */
 	public String displayStats()
 	{
