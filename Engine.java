@@ -131,12 +131,6 @@ public class Engine
 		if(grid.getPlayer().getRow() < 8) {
 			GridObject objectDown = grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
 			if(objectDown.isARoom()) {
-				if(objectDown.getRoomNumber() == grid.getWinRoom())
-				{
-					victory = true;
-					gameOver = true;
-					return true;
-				}
 				return false;
 			}
 			else if(objectDown.isAnEnemy()) {
