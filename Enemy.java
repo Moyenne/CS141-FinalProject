@@ -9,7 +9,8 @@ import edu.cpp.cs.cs141.FinalProject.GridObject.ObjectType;
 public class Enemy extends GridObject
 {
 	/**
-	 * Is the Enemy alive?
+	 * Is the Enemy alive? This determines if the Enemy will be able to move, attack, or even be printed onto the
+	 * board during the enemyTurn method of the Engine class.
 	 */
 	private boolean isAlive = true;
 	
@@ -32,13 +33,17 @@ public class Enemy extends GridObject
 	}
 	
 	/**
-	 * Kills the Enemy upon being shot by the player.
+	 * Kills the Enemy upon being shot by the player, setting isAlive to false.
 	 */
 	public void die()
 	{
 		isAlive = false;
 	}
 	
+	/**
+	 * A simple method that returns true always, confirming this is, in fact, an enemy. This is
+	 * used for grid scans later on in the Engine and Grid classes.
+	 */
 	public boolean isAnEnemy()
 	{
 		return true;
