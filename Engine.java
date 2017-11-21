@@ -285,7 +285,7 @@ public class Engine
 				if(grid.getGridObject(row,col).isARoom()) {				//block by the room
 					grid.resetVisibility();
 					return false;
-				
+				}
 				if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
 					enemyIsKilled(row, col);
 					grid.resetVisibility();
