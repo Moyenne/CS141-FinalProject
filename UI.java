@@ -75,7 +75,8 @@ public class UI
 				printHelpMessage();
 				break;
 			case "load":
-				System.out.println("loading");
+				doLoadAction();
+				atStart = false;
 				break;
 			case "exit":
 				System.out.println("Goodbye! Take care.");
@@ -167,14 +168,14 @@ public class UI
 				initialOptions.remove("shoot");
 				break;
 			case "save":
-				// implement save
-				break;
+				doSaveAction();
+				continue;
 			case "load":
-				// implement load
-				break;
+				doLoadAction();
+				continue;
 			case "quit":
-				// implement quit
-				break;
+				System.out.println("Thank you for player. Bye bye.");
+				return;
 			case "tdm404":
 				engine.getGrid().toggleDebug();
 				continue;
@@ -196,7 +197,7 @@ public class UI
 				initialOptions.add(1, "check");										// adds the "check" option if it does not exists in the list.
 			if(!engine.canCheckRoom() && initialOptions.contains("check"))
 			{
-				initialOptions.remove(1);
+				initialOptions.remove("check");
 			}
 		} while(!engine.gameOver());
 		
@@ -297,6 +298,70 @@ public class UI
 			System.out.println("You missed. You'll need to find more ammo now.");	
 	}
 
+	private void doSaveAction() {
+		System.out.print("Please enter a name for the file: ");
+		String fileName = keyboard.nextLine();
+		File target = new File(fileName);
+		if(!target.exists())
+			Save.WriteToFile(engine.getGrid(), fileName);
+		else
+		{
+			System.out.println("Would you like to overwrite the file: " + fileName + "?");
+			ArrayList<String> options = new ArrayList<String>();
+			options.add("yes");
+			options.add("no");
+			displayOptions(options);
+			do
+			{
+				switch(getInput(options))
+				{
+				case "yes":
+					Save.WriteToFile(engine.getGrid(), fileName);
+					return;
+				case "no":
+					doSaveAction();
+					return;
+				default:			// only the case when user typed the debug input
+					System.err.println("Error! Please enter a valid input according to the options given.");
+					continue;
+				}
+			} while(true);
+		}
+		
+	}
+
+	private void doLoadAction() {
+		File saveFilesDir = new File(".\\savefiles\\");
+		File[] saveFiles = saveFilesDir.listFiles();
+		
+		if(saveFiles.length == 0) {
+			System.out.println("There are no save files to load from!");
+			return;
+		}
+		
+		ArrayList<String> loadOptions = new ArrayList<String>();
+		
+		for(File file : saveFiles)
+			loadOptions.add(file.getName());
+		System.out.println("Saved files:");
+		displayOptions(loadOptions);
+		
+		do
+		{
+			
+			System.out.print("Please enter the file name you want to load: ");
+			try {
+				engine = new Engine(Save.readFromFile(keyboard.nextLine()));
+				return;
+			} catch(FileNotFoundException fnfe) {
+				System.err.println("Error: File not found.");
+			} catch(Exception e) {
+				System.err.println("Error: Please try again.");
+			}
+		} while(true);
+		
+	}
+	
 	/**
 	 * This method displays the options that are all in the ArrayList {@code listOfOptions} argument, in a numbered fashion.
 	 * 
