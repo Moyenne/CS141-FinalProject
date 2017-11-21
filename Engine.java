@@ -16,20 +16,32 @@ public class Engine
 	 * A grid value, which instantiates all of the functions and contents of the Grid class.
 	 * This gives the Engine the access it needs to alter the state of the grid.
 	 */
-	private Grid grid = new Grid();
+	private Grid grid;
 	
 	/**
 	 * A boolean value that determines if the game is still being played or not. Note: the game
 	 * can be over, but not lost. The game can also be over, but not won. Victory is determined
 	 * by the victory variable.
 	 */
-	private boolean gameOver = false;
+	private boolean gameOver;
 	
 	/**
 	 * A boolean value that determines if the player has won or lost when the game is over. This
 	 * value is constantly checked and updated by the checkWin and CheckLoseCondition methods.
 	 */
-	private boolean victory = false;
+	private boolean victory;
+	
+	public Engine() {
+		grid = new Grid();
+		gameOver = false;
+		victory = false;
+	}
+	
+	public Engine(Grid grid) {
+		this.grid = grid;
+		gameOver = false;
+		victory = false;
+	}
 	
 	/**
 	 * A simple method that returns the boolean value stored by the gameOver variable.
