@@ -401,7 +401,7 @@ public class Grid implements Serializable
 			}
 			output = output.concat("\n");
 		}
-		resetVisibility();
+		
 		return output;
 	}
 	
@@ -447,15 +447,14 @@ public class Grid implements Serializable
 	}
 
 	/**
-	 * This method resets the visibility of the empty squares that contain nothing in them to an
-	 * invisible state. This method is meant to be used by {@linkplain #getGrid()} in order to
-	 * reset the visibility of the squares, that were turned visible, before {@linkplain #getGrid()}
-	 * is called again, since the player square by that time will be different than before.
+	 * This method should be called whenever the grid needs to be reset in terms
+	 * of visibility. Essentially, when the player takes any action that would advance
+	 * a turn in the game, this method should be called in order to reset any visible
+	 * squares on the grid during that turn.
 	 */
 	private void resetVisibility()
 	{
 		// Goes through the grid and sets the DEFAULT squares' visibility to false.
-		// Note: not optimal, only 5 squares at most need to be reset, there should be a better way
 		for(int i = 0; i < 9; i++)
 		{
 			for(int j = 0; j < 9; j++)
