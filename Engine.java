@@ -99,6 +99,7 @@ public class Engine
 				case "left":
 					grid.movePlayer(grid.getPlayer().getRow(), grid.getPlayer().getColumn(), grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
 		}
+		grid.resetVisibility();
 	}
 	
 	/**
@@ -266,11 +267,13 @@ public class Engine
 			do
 			{
 				row--;
-				if(grid.getGridObject(row,col).isARoom())				//block by the room
+				if(grid.getGridObject(row,col).isARoom()) {				//block by the room
+					grid.resetVisibility();
 					return false;
-				
+				}
 				if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
 					enemyIsKilled(row, col);
+					grid.resetVisibility();
 					return true;
 				}
 			}while(row > 0);
@@ -279,11 +282,13 @@ public class Engine
 			do
 			{
 				row++;
-				if(grid.getGridObject(row,col).isARoom())				//block by the room
+				if(grid.getGridObject(row,col).isARoom()) {				//block by the room
+					grid.resetVisibility();
 					return false;
 				
 				if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
 					enemyIsKilled(row, col);
+					grid.resetVisibility();
 					return true;
 				}
 			}while(row < 8);
@@ -292,11 +297,13 @@ public class Engine
 			do
 			{
 				col++;
-				if(grid.getGridObject(row,col).isARoom())				//block by the room
+				if(grid.getGridObject(row,col).isARoom()) {				//block by the room
+					grid.resetVisibility();
 					return false;
-				
+				}
 				if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
 					enemyIsKilled(row, col);
+					grid.resetVisibility();
 					return true;
 				}
 			}while(col < 8);
@@ -305,15 +312,17 @@ public class Engine
 			do
 			{
 				col--;
-				if(grid.getGridObject(row,col).isARoom())				//block by the room
+				if(grid.getGridObject(row,col).isARoom()) {				//block by the room
+					grid.resetVisibility();
 					return false;
-				
+				}
 				if(grid.getGridObject(row,col).isAnEnemy()) {			//kill the first enemy in the line
 					enemyIsKilled(row, col);
+					grid.resetVisibility();
 					return true;
 				}
 			}while(col > 0);
-		
+		grid.resetVisibility();
 		return false;
 	}
 	
