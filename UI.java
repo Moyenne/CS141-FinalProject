@@ -75,9 +75,15 @@ public class UI
 				printHelpMessage();
 				break;
 			case "load":
+				Grid temp = engine.getGrid();
 				doLoadAction();
-				atStart = false;
-				break;
+				if(engine.getGrid() != temp)		// if the player successfully loaded a game
+				{
+					atStart = false;
+					break;
+				}
+				else
+					break;
 			case "exit":
 				System.out.println("Goodbye! Take care.");
 				System.exit(0);
@@ -301,7 +307,7 @@ public class UI
 	private void doSaveAction() {
 		System.out.print("Please enter a name for the file: ");
 		String fileName = keyboard.nextLine();
-		File target = new File(fileName);
+		File target = new File(".\\savefiles\\" + fileName);
 		if(!target.exists())
 			Save.WriteToFile(engine.getGrid(), fileName);
 		else
@@ -333,6 +339,7 @@ public class UI
 	private void doLoadAction() {
 		File saveFilesDir = new File(".\\savefiles\\");
 		File[] saveFiles = saveFilesDir.listFiles();
+		String loadFileName;
 		
 		if(saveFiles.length == 0) {
 			System.out.println("There are no save files to load from!");
@@ -348,10 +355,13 @@ public class UI
 		
 		do
 		{
-			
-			System.out.print("Please enter the file name you want to load: ");
+			System.out.println("Please enter the file name you want to load or enter \"cancel\" to cancel:");
+			loadOptions.add("cancel");
+			loadFileName = getInput(loadOptions);
+			if(loadFileName.equals("cancel"))
+				return;
 			try {
-				engine = new Engine(Save.readFromFile(keyboard.nextLine()));
+				engine = new Engine(Save.readFromFile(loadFileName));
 				return;
 			} catch(FileNotFoundException fnfe) {
 				System.err.println("Error: File not found.");
