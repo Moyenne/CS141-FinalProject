@@ -259,7 +259,7 @@ public class Engine
 		grid.getPlayer().shoot();
 		input = input.toLowerCase();
 		
-		int row = grid.getPlayer().getRow();						//start from the above square of the spy
+		int row = grid.getPlayer().getRow();						
 		int col = grid.getPlayer().getColumn();
 		
 		if(input=="up")
