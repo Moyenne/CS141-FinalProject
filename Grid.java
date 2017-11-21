@@ -452,7 +452,7 @@ public class Grid implements Serializable
 	 * a turn in the game, this method should be called in order to reset any visible
 	 * squares on the grid during that turn.
 	 */
-	private void resetVisibility()
+	public void resetVisibility()
 	{
 		// Goes through the grid and sets the DEFAULT squares' visibility to false.
 		for(int i = 0; i < 9; i++)
