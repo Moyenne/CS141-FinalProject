@@ -339,12 +339,25 @@ public class UI
 	}
 
 	private void doLoadAction() {
+		File dir = new File("savefiles");
 		File saveFilesDir = new File(".\\savefiles\\");
 		File[] saveFiles = saveFilesDir.listFiles();
 		String loadFileName;
+		Boolean directoryHasFiles = true;
+		
+
+		if (!(new File("user.dir").exists())) {
+			dir.mkdir();
+		}
+			
+		if(saveFiles == null) {
+			System.out.println("There are no save files to load from!\n");
+			directoryHasFiles = false;
+			return;
+		}
 		
 		if(saveFiles.length == 0) {
-			System.out.println("There are no save files to load from!");
+			System.out.println("There are no save files to load from!\n");
 			return;
 		}
 		
@@ -370,7 +383,7 @@ public class UI
 			} catch(Exception e) {
 				System.err.println("Error: Please try again.");
 			}
-		} while(true);
+		} while(directoryHasFiles);
 		
 	}
 	
