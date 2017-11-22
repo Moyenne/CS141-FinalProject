@@ -22,6 +22,11 @@ public class Save
 	 */
 	public static void WriteToFile(Grid grid, String saveFileName){
 		try {
+			File dir = new File("savefiles");
+
+			if (!(new File("user.dir").exists())) {
+				dir.mkdir();
+			}
 			FileOutputStream f = new FileOutputStream(new File(".\\savefiles\\" + saveFileName));
 			ObjectOutputStream o = new ObjectOutputStream(f);
 			
