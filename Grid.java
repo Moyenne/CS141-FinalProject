@@ -417,7 +417,7 @@ public class Grid implements Serializable
 	 * This method sets the blocks adjacent to the player to be visible.
 	 * In other words, they simply do not appear on the grid as [X].
 	 */
-	private void setAdjacentVisible()
+	public void setAdjacentVisible()
 	{
 		/* This if-else block determines if there are squares above and below the player square,
 		 * and handles the adjacent squares' visibility if they exist.
