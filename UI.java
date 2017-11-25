@@ -193,7 +193,7 @@ public class UI
 				doLoadAction();
 				continue;
 			case "quit":
-				System.out.println("Thank you for player. Bye bye.");
+				System.out.println("Thank you for playing!");
 				return;
 			case "tdm404":
 				engine.getGrid().toggleDebug();
