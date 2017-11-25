@@ -31,17 +31,22 @@ public class Engine
 	 */
 	private boolean victory;
 	
+	private boolean hardMode;
+	
 	public Engine() {
 		grid = new Grid();
 		gameOver = false;
 		victory = false;
+		hardMode = false;
 	}
 	
 	public Engine(Grid grid) {
 		this.grid = grid;
 		gameOver = false;
 		victory = false;
+		hardMode = false;
 	}
+	
 	
 	/**
 	 * A simple method that returns the boolean value stored by the gameOver variable.
@@ -49,6 +54,13 @@ public class Engine
 	public boolean gameOver()
 	{
 		return gameOver;
+	}
+	
+	/**
+	 * A simple method that is called to change to the hard mode
+	 */
+	public void hardMode() {
+		hardMode = true;
 	}
 	
 	/**
@@ -514,7 +526,6 @@ public class Engine
 		int enemyNumber = 0;
 		for(Enemy enemy : grid.getEnemyList())
 		{
-			
 			if(enemy.isAlive())
 			{
 				int erow=enemy.getRow();
@@ -537,9 +548,36 @@ public class Engine
 					boolean fail3 = false;
 					Random dir = new Random();
 					boolean EnemyHasMoved=false;
+					
+					int pRow = grid.getPlayer().getRow();						
+					int pCol = grid.getPlayer().getColumn();
+					
+					
 					do
 					{
-						switch (dir.nextInt(4))
+						int direction = dir.nextInt(4);
+						
+						// start hard mode
+						if (hardMode==true){						
+							
+							//check if player is same row
+							if(ecol == pCol) {
+								if(erow - pRow > 0 && fail2 == false)					//enemy is bottom of the player
+									direction = 2;										//move enemy up
+								if (erow - pRow < 0 && fail0 == false)					//enemy is above of the player
+									direction = 0;										//move enemy down	
+							}
+							
+							//check if player is same column
+							if(erow == pRow) {
+								if(ecol - pCol > 0 && fail3 == false)					//enemy is right of the player
+									direction = 3;										//move enemy left
+								if(ecol - pCol < 0 && fail1 == false)					//enemy is left of the player
+									direction = 1;										//move enemy right
+							}
+						}
+						
+						switch (direction)
 						{
 							case 0://try to move enemy: row+1
 								if(erow<8)//out of bounds check
