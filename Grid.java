@@ -454,7 +454,7 @@ public class Grid implements Serializable
 	 */
 	public void resetVisibility()
 	{
-		// Goes through the grid and sets the DEFAULT squares' visibility to false.
+		// Goes through the grid and sets the appropriate squares' visibility to false.
 		for(int i = 0; i < 9; i++)
 		{
 			for(int j = 0; j < 9; j++)
@@ -475,6 +475,7 @@ public class Grid implements Serializable
 	{
 		if(debugOn)
 		{
+			resetVisibility();
 			debugOn = false;
 		}
 		else
