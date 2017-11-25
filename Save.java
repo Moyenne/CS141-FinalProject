@@ -24,7 +24,7 @@ public class Save
 		try {
 			File dir = new File("savefiles");
 
-			if (!(new File("user.dir").exists())) {
+			if (!dir.exists()) {
 				dir.mkdir();
 			}
 			FileOutputStream f = new FileOutputStream(new File(".\\savefiles\\" + saveFileName));
