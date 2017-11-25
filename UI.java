@@ -139,7 +139,18 @@ public class UI
 	 */
 	public void gameLoop()
 	{
-		ArrayList<String> initialOptions = new ArrayList<String>();
+		ArrayList<String> modeOptions = new ArrayList<String>();
+		modeOptions.add("normal");
+		modeOptions.add("hard");
+		
+		System.out.println("Please choose your mode:");
+		displayOptions(modeOptions);
+		String mode = getInput(modeOptions);
+		if(mode == "hard")
+			engine.hardMode();
+		
+		ArrayList<String> initialOptions = new ArrayList<String>();		
+		
 		initialOptions.add("look");
 		initialOptions.add("move");
 		initialOptions.add("shoot");
@@ -148,9 +159,9 @@ public class UI
 		initialOptions.add("quit");
 		String input;
 		
+		
 		do
-		{
-			
+		{			
 			
 			System.out.println(engine.displayGrid());
 			System.out.println(engine.displayStats());
@@ -237,12 +248,12 @@ public class UI
 		
 		if(engine.lookUp())
 			dirOptions.add("up");
-		if(engine.lookRight())
-			dirOptions.add("right");
-		if(engine.lookDown())
-			dirOptions.add("down");
 		if(engine.lookLeft())
 			dirOptions.add("left");
+		if(engine.lookDown())
+			dirOptions.add("down");
+		if(engine.lookRight())
+			dirOptions.add("right");
 		
 		System.out.println("Please enter the direction you would like to look:");
 		displayOptions(dirOptions);
@@ -263,12 +274,12 @@ public class UI
 		
 		if(engine.moveUp())
 			dirOptions.add("up");
-		if(engine.moveRight())
-			dirOptions.add("right");
-		if(engine.moveDown())
-			dirOptions.add("down");
 		if(engine.moveLeft())
 			dirOptions.add("left");
+		if(engine.moveDown())
+			dirOptions.add("down");
+		if(engine.moveRight())
+			dirOptions.add("right");
 		
 		System.out.println("Please enter the direction you would like to move:");
 		displayOptions(dirOptions);
@@ -289,12 +300,12 @@ public class UI
 		
 		if(engine.shootUp())
 			dirOptions.add("up");
-		if(engine.shootRight())
-			dirOptions.add("right");
-		if(engine.shootDown())
-			dirOptions.add("down");
 		if(engine.shootLeft())
 			dirOptions.add("left");
+		if(engine.shootDown())
+			dirOptions.add("down");
+		if(engine.shootRight())
+			dirOptions.add("right");
 		
 		System.out.println("Please enter the direction you would like to shoot:");
 		displayOptions(dirOptions);
