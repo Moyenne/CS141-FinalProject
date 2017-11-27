@@ -31,6 +31,10 @@ public class Engine
 	 */
 	private boolean victory;
 	
+	/**
+	 * A boolean value that determines if the game's Hard mode is active or not. This value is
+	 * determined at the start of the game by the UI class.
+	 */
 	private boolean hardMode;
 	
 	public Engine() {
@@ -57,7 +61,7 @@ public class Engine
 	}
 	
 	/**
-	 * A simple method that is called to change to the hard mode
+	 * A simple method that is called to change the value of hardMode to true.
 	 */
 	public void hardMode() {
 		hardMode = true;
@@ -518,6 +522,7 @@ public class Engine
 	 * A method that details the functions to be performed on the enemy turn. The enemy either moves randomly or
 	 * kills the player. This applies to all enemies that are alive, which is checked for each enemy originally
 	 * placed on the grid. Movement is decided randomly, and is checked to be valid by a number of failsafe cases.
+	 * If the hardMode value equals true, then enemy movement is determined if the player is nearby.
 	 */
 	public void enemyTurn()
 	{
