@@ -37,6 +37,9 @@ public class Engine
 	 */
 	private boolean hardMode;
 	
+	/**
+	 * The default constructor for the Engine, which is called during the initialization of the UI.
+	 */
 	public Engine() {
 		grid = new Grid();
 		gameOver = false;
@@ -44,6 +47,10 @@ public class Engine
 		hardMode = false;
 	}
 	
+	/**
+	 * The secondary constructor for the Engine, which is called during the loading of a saved file,
+	 * which takes the file's saved Grid to correctly load all GridObject values.
+	 */
 	public Engine(Grid grid) {
 		this.grid = grid;
 		gameOver = false;
