@@ -533,9 +533,9 @@ public class Engine
 		{
 			if(enemy.isAlive())
 			{
-				int erow=enemy.getRow();
-				int ecol=enemy.getColumn();
-				if ((col == ecol && (Math.abs(row-erow)==1) || (row==erow && (Math.abs(col-ecol)==1))))//is the player 1 space away? if so, attack.
+				int eRow=enemy.getRow();
+				int eCol=enemy.getColumn();
+				if ((col == eCol && (Math.abs(row-eRow)==1) || (row==eRow && (Math.abs(col-eCol)==1))))//is the player 1 space away? if so, attack.
 				{
 					if(!grid.getPlayer().isInvincible())//invincibility check
 					{
@@ -565,64 +565,66 @@ public class Engine
 						// start hard mode
 						if (hardMode==true){						
 							
-							//check if player is same row
-							if(ecol == pCol) {
-								if(erow - pRow > 0 && fail2 == false)					//enemy is bottom of the player
-									direction = 2;										//move enemy up
-								if (erow - pRow < 0 && fail0 == false)					//enemy is above of the player
-									direction = 0;										//move enemy down	
-							}
-							
 							//check if player is same column
-							if(erow == pRow) {
-								if(ecol - pCol > 0 && fail3 == false)					//enemy is right of the player
-									direction = 3;										//move enemy left
-								if(ecol - pCol < 0 && fail1 == false)					//enemy is left of the player
-									direction = 1;										//move enemy right
-							}
+							if(eCol == pCol) 
+								if(!thereIsARoomBetween(pCol)){							//check a room is blocked the sight of enemy
+									if(eRow - pRow > 0 && fail2 == false)					//enemy is bottom of the player
+										direction = 2;							//move enemy up
+									if (eRow - pRow < 0 && fail0 == false)					//enemy is above of the player
+										direction = 0;							//move enemy down	
+								}
+							
+							//check if player is same row
+							if(eRow == pRow) 
+								if(!thereIsARoomBetween(pRow)){							//check a room is blocked the sight of enemy{
+									if(eCol - pCol > 0 && fail3 == false)					//enemy is right of the player
+										direction = 3;							//move enemy left
+									if(eCol - pCol < 0 && fail1 == false)					//enemy is left of the player
+										direction = 1;							//move enemy right
+								}
 						}
 						
 						switch (direction)
 						{
 							case 0://try to move enemy: row+1
-								if(erow<8)//out of bounds check
+								if(eRow<8)//out of bounds check
 								{
-									if (!(grid.getGridObject(erow+1,ecol).isARoom()) && !(grid.getGridObject(erow+1,ecol).isAnEnemy()))//enemies can't enter rooms.
+									if (!(grid.getGridObject(eRow+1,eCol).isARoom()) && !(grid.getGridObject(eRow+1,eCol).isAnEnemy()))//enemies can't enter rooms.
 									{
-										grid.moveEnemy(enemyNumber,erow+1,ecol);
+										grid.moveEnemy(enemyNumber,eRow+1,eCol);
 										EnemyHasMoved=true;
 									}								
 								}
 								fail0 = true;
 								break;
 							case 1://move enemy column+1
-								if(ecol<8)
+								if(eCol<8)
 								{
-									if (!(grid.getGridObject(erow,ecol+1).isARoom()) && !(grid.getGridObject(erow,ecol+1).isAnEnemy()))
+									if (!(grid.getGridObject(eRow,eCol+1).isARoom()) && !(grid.getGridObject(eRow,eCol+1).isAnEnemy()))
 									{
-										grid.moveEnemy(enemyNumber,erow,ecol+1);
+										grid.moveEnemy(enemyNumber,eRow,eCol+1);
 										EnemyHasMoved=true;
 									}
 								}
 								fail1 = true;
 								break;
 							case 2://move enemy row -1
-								if(erow>0)
+								if(eRow>0)
 								{
-									if (!(grid.getGridObject(erow-1,ecol).isARoom()) && !(grid.getGridObject(erow-1,ecol).isAnEnemy()))
+									if (!(grid.getGridObject(eRow-1,eCol).isARoom()) && !(grid.getGridObject(eRow-1,eCol).isAnEnemy()))
 									{
-										grid.moveEnemy(enemyNumber,erow-1,ecol);
+										grid.moveEnemy(enemyNumber,eRow-1,eCol);
 										EnemyHasMoved=true;
 									}
 								}
 								fail2 = true;
 								break;
 							case 3://move enemy column -1
-								if(ecol>0)
+								if(eCol>0)
 								{
-									if(!(grid.getGridObject(erow,ecol-1).isARoom()) && !(grid.getGridObject(erow,ecol-1).isAnEnemy()))
+									if(!(grid.getGridObject(eRow,eCol-1).isARoom()) && !(grid.getGridObject(eRow,eCol-1).isAnEnemy()))
 									{
-										grid.moveEnemy(enemyNumber,erow,ecol-1);
+										grid.moveEnemy(enemyNumber,eRow,eCol-1);
 										EnemyHasMoved=true;
 									}
 								}
@@ -638,6 +640,16 @@ public class Engine
 			}
 			enemyNumber++;
 		}
+	}
+	
+	/**
+	 * A simple method that returns the status of whether a room is between enemy and player
+	 */
+	
+	private boolean thereIsARoomBetween(int line) {
+		if((line == 1 || line == 4 || line == 7))
+			return true;
+		return false;
 	}
 	
 	/**
