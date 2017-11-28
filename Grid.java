@@ -287,6 +287,7 @@ public class Grid implements Serializable
 		grid[currentRow][currentCol].changePosition(currentRow, currentCol);
 		if(grid[currentRow][currentCol].isAnItem())
 		{
+			activatePowerUp((Item)grid[currentRow][currentCol]);
 			grid[currentRow][currentCol] = new GridObject(currentRow, currentCol);
 		}
 	}
@@ -316,6 +317,15 @@ public class Grid implements Serializable
 			enemies[enemyNumber].storeObject(temp);
 		}
 		enemy.changePosition(newRow, newCol);
+	}
+	
+	/**
+	 * A method that is called when the Player enters the space of an Item, which then has it's applyItemEffect
+	 * method called before it is deleted, and the Player takes over its position.
+	 */
+	public void activatePowerUp(Item powerUp)
+	{
+		powerUp.applyItemEffect(player);
 	}
 	
 	/**
@@ -401,7 +411,7 @@ public class Grid implements Serializable
 			}
 			output = output.concat("\n");
 		}
-		
+		resetVisibility();
 		return output;
 	}
 	
@@ -447,14 +457,15 @@ public class Grid implements Serializable
 	}
 
 	/**
-	 * This method should be called whenever the grid needs to be reset in terms
-	 * of visibility. Essentially, when the player takes any action that would advance
-	 * a turn in the game, this method should be called in order to reset any visible
-	 * squares on the grid during that turn.
+	 * This method resets the visibility of the empty squares that contain nothing in them to an
+	 * invisible state. This method is meant to be used by {@linkplain #getGrid()} in order to
+	 * reset the visibility of the squares, that were turned visible, before {@linkplain #getGrid()}
+	 * is called again, since the player square by that time will be different than before.
 	 */
 	public void resetVisibility()
 	{
-		// Goes through the grid and sets the appropriate squares' visibility to false.
+		// Goes through the grid and sets the DEFAULT squares' visibility to false.
+		// Note: not optimal, only 5 squares at most need to be reset, there should be a better way
 		for(int i = 0; i < 9; i++)
 		{
 			for(int j = 0; j < 9; j++)
@@ -475,7 +486,6 @@ public class Grid implements Serializable
 	{
 		if(debugOn)
 		{
-			resetVisibility();
 			debugOn = false;
 		}
 		else
