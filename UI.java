@@ -143,7 +143,7 @@ public class UI
 		modeOptions.add("normal");
 		modeOptions.add("hard");
 		
-		System.out.println("Please choose your mode:");
+		System.out.println("Please choose difficulty:");
 		displayOptions(modeOptions);
 		String mode = getInput(modeOptions);
 		if(mode == "hard")
