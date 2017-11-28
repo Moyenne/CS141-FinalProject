@@ -144,7 +144,7 @@ public class Engine
 			}
 			else if(objectUp.isAnItem()) {
 				grid.getGridObject(grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn());
-				activatePowerUp((Item)objectUp);;
+				;
 				//TODO
 				return true;
 			}
@@ -180,7 +180,7 @@ public class Engine
 			else if(objectDown.isAnItem()) {
 				//TODO
 				grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn());
-				activatePowerUp((Item)objectDown);
+				;
 				return true;
 			}
 			else {
@@ -213,7 +213,7 @@ public class Engine
 			}
 			else if(objectLeft.isAnItem()) {
 				grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1);
-				activatePowerUp((Item)objectLeft);
+				;
 				//TODO
 				return true;
 			}
@@ -246,7 +246,7 @@ public class Engine
 			}
 			else if(objectRight.isAnItem()) {
 				grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1);
-				activatePowerUp((Item)objectRight);
+				;
 				//TODO
 				return true;
 			}
@@ -465,7 +465,7 @@ public class Engine
 			return false;
 		
 		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow() - 2, grid.getPlayer().getColumn());
-		if(targetSpot.isARoom() || grid.getGridObject(grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn()).isARoom())
+		if(targetSpot.isARoom())
 			return false;
 		else
 			return true;
@@ -480,7 +480,7 @@ public class Engine
 			return false;
 		
 		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow() + 2, grid.getPlayer().getColumn());
-		if(targetSpot.isARoom() || grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn()).isARoom())
+		if(targetSpot.isARoom())
 			return false;
 		else
 			return true;
@@ -495,7 +495,7 @@ public class Engine
 			return false;
 		
 		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 2);
-		if(targetSpot.isARoom() || grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1).isARoom())
+		if(targetSpot.isARoom())
 			return false;
 		else
 			return true;
@@ -510,19 +510,10 @@ public class Engine
 			return false;
 		
 		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 2);
-		if(targetSpot.isARoom() || grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1).isARoom())
+		if(targetSpot.isARoom())
 			return false;
 		else
 			return true;
-	}
-	
-	/**
-	 * A method that is called when the Player enters the space of an Item, which then has it's applyItemEffect
-	 * method called before it is deleted, and the Player takes over its position.
-	 */
-	public void activatePowerUp(Item powerUp)
-	{
-		powerUp.applyItemEffect(grid.getPlayer());
 	}
 	
 	public void killPlayer()
