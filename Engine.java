@@ -522,6 +522,7 @@ public class Engine
 		if(grid.getPlayer().getLifeCount()==0)
 			gameOver=true;
 		grid.movePlayer(grid.getPlayer().getRow(),grid.getPlayer().getColumn(),8,0);
+		System.out.println("Oh no! You were mortally stabbed! Be careful, agent.");
 	}
 	
 	/**
@@ -545,10 +546,7 @@ public class Engine
 				{
 					if(!grid.getPlayer().isInvincible())//invincibility check
 					{
-						grid.getPlayer().decreaseLifeCount();
-						if(grid.getPlayer().getLifeCount()==0)
-							gameOver=true;
-						grid.movePlayer(row,col,8,0);
+						killPlayer();
 					}
 				}
 				else
