@@ -526,6 +526,17 @@ public class Engine
 	}
 	
 	/**
+	 * Used to prevent enemy softlocking. That's it. Bleh.
+	 */
+	public void killPlayer()
+	{
+		grid.getPlayer().decreaseLifeCount();
+		if(grid.getPlayer().getLifeCount()==0)
+			gameOver=true;
+		grid.movePlayer(grid.getPlayer().getRow(),grid.getPlayer().getColumn(),8,0);
+	}
+	
+	/**
 	 * A method that details the functions to be performed on the enemy turn. The enemy either moves randomly or
 	 * kills the player. This applies to all enemies that are alive, which is checked for each enemy originally
 	 * placed on the grid. Movement is decided randomly, and is checked to be valid by a number of failsafe cases.
@@ -650,7 +661,7 @@ public class Engine
 	}
 	
 	/**
-	 * A simple method that returns the status of whether a room is between enemy and player
+	 * A simple method that returns the status of whether a room is between an enemy and a player.
 	 */
 	
 	private boolean thereIsARoomBetween(int line) {
