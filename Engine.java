@@ -485,7 +485,7 @@ public class Engine
 			return false;
 		
 		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow() - 2, grid.getPlayer().getColumn());
-		if(targetSpot.isARoom())
+		if(targetSpot.isARoom() || grid.getGridObject(grid.getPlayer().getRow() - 1, grid.getPlayer().getColumn()).isARoom())
 			return false;
 		else
 			return true;
@@ -500,7 +500,7 @@ public class Engine
 			return false;
 		
 		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow() + 2, grid.getPlayer().getColumn());
-		if(targetSpot.isARoom())
+		if(targetSpot.isARoom() || grid.getGridObject(grid.getPlayer().getRow() + 1, grid.getPlayer().getColumn()).isARoom())
 			return false;
 		else
 			return true;
@@ -515,7 +515,7 @@ public class Engine
 			return false;
 		
 		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 2);
-		if(targetSpot.isARoom())
+		if(targetSpot.isARoom() || grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() - 1).isARoom())
 			return false;
 		else
 			return true;
@@ -530,7 +530,7 @@ public class Engine
 			return false;
 		
 		GridObject targetSpot = grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 2);
-		if(targetSpot.isARoom())
+		if(targetSpot.isARoom() || grid.getGridObject(grid.getPlayer().getRow(), grid.getPlayer().getColumn() + 1).isARoom())
 			return false;
 		else
 			return true;
