@@ -79,27 +79,27 @@ public class Grid implements Serializable
 	 */
 	private void roomSetup()
 	{
-		Room[] temp = new Room[9];
-		Room room1 = new Room(1, 1, 1); temp[0] = room1;
-		Room room2 = new Room(2, 1, 4); temp[1] = room2;
-		Room room3 = new Room(3, 1, 7); temp[2] = room3;
-		Room room4 = new Room(4, 4, 1); temp[3] = room4;
-		Room room5 = new Room(5, 4, 4); temp[4] = room5;
-		Room room6 = new Room(6, 4, 7); temp[5] = room6;
-		Room room7 = new Room(7, 7, 1); temp[6] = room7;
-		Room room8 = new Room(8, 7, 4); temp[7] = room8;
-		Room room9 = new Room(9, 7, 7); temp[8] = room9;
-		winRoom = new Random().nextInt(9);
+		Room[] temp = new Room[10];
+		Room room1 = new Room(1, 1, 1); temp[1] = room1;
+		Room room2 = new Room(2, 1, 4); temp[2] = room2;
+		Room room3 = new Room(3, 1, 7); temp[3] = room3;
+		Room room4 = new Room(4, 4, 1); temp[4] = room4;
+		Room room5 = new Room(5, 4, 4); temp[5] = room5;
+		Room room6 = new Room(6, 4, 7); temp[6] = room6;
+		Room room7 = new Room(7, 7, 1); temp[7] = room7;
+		Room room8 = new Room(8, 7, 4); temp[8] = room8;
+		Room room9 = new Room(9, 7, 7); temp[9] = room9;
+		winRoom = new Random().nextInt(9) + 1;
 		temp[winRoom].placeBriefcase();
-		addGridObject(temp[0], 1, 1);
-		addGridObject(temp[1], 1, 4);
-		addGridObject(temp[2], 1, 7);
-		addGridObject(temp[3], 4, 1);
-		addGridObject(temp[4], 4, 4);
-		addGridObject(temp[5], 4, 7);
-		addGridObject(temp[6], 7, 1);
-		addGridObject(temp[7], 7, 4);
-		addGridObject(temp[8], 7, 7);
+		addGridObject(temp[1], 1, 1);
+		addGridObject(temp[2], 1, 4);
+		addGridObject(temp[3], 1, 7);
+		addGridObject(temp[4], 4, 1);
+		addGridObject(temp[5], 4, 4);
+		addGridObject(temp[6], 4, 7);
+		addGridObject(temp[7], 7, 1);
+		addGridObject(temp[8], 7, 4);
+		addGridObject(temp[9], 7, 7);
 		
 		
 	}
