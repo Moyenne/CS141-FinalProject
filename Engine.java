@@ -88,7 +88,7 @@ public class Engine
 	}
 	
 	/**
-	 * A simple method that change player's status.
+	 * A simple method that changes the player's status back to alive.
 	 */
 	public void playerRespawns() {
 		isPlayerKilled = false;
