@@ -38,7 +38,8 @@ public class Engine
 	private boolean hardMode;
 	
 	/**
-	 * A boolean value that determines the player is killed or not and send it to the UI to print the message
+	 * A boolean value that determines if the player is killed or not, and sends it to the UI to
+	 * print the corresponding death message.
 	 */
 	private boolean isPlayerKilled;
 	
