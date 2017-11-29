@@ -202,6 +202,11 @@ public class UI
 			
 			engine.enemyTurn();
 			
+			if(engine.getIsPlayerKilled()) {
+				System.out.println("Oh no! You were mortally stabbed! Be careful, agent.");
+				engine.playerRespawns();
+			}
+			
 			if(engine.getGrid().getPlayer().isInvincible())
 			{
 				engine.getGrid().getPlayer().decreaseInvincibility();
