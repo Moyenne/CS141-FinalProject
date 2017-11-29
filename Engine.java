@@ -38,6 +38,11 @@ public class Engine
 	private boolean hardMode;
 	
 	/**
+	 * A boolean value that determines the player is killed or not and send it to the UI to print the message
+	 */
+	private boolean isPlayerKilled;
+	
+	/**
 	 * The default constructor for the Engine, which is called during the initialization of the UI.
 	 */
 	public Engine() {
@@ -72,6 +77,20 @@ public class Engine
 	 */
 	public void hardMode() {
 		hardMode = true;
+	}
+	
+	/**
+	 * A simple method that returns the boolean value stored by the isPlayerKilled variable.
+	 */
+	public boolean getIsPlayerKilled() {
+		return isPlayerKilled;
+	}
+	
+	/**
+	 * A simple method that change player's status.
+	 */
+	public void playerRespawns() {
+		isPlayerKilled = false;
 	}
 	
 	/**
@@ -522,7 +541,7 @@ public class Engine
 		if(grid.getPlayer().getLifeCount()==0)
 			gameOver=true;
 		grid.movePlayer(grid.getPlayer().getRow(),grid.getPlayer().getColumn(),8,0);
-		System.out.println("Oh no! You were mortally stabbed! Be careful, agent.");
+		isPlayerKilled = true;
 	}
 	
 	/**
@@ -545,9 +564,7 @@ public class Engine
 				if ((col == eCol && (Math.abs(row-eRow)==1) || (row==eRow && (Math.abs(col-eCol)==1))))//is the player 1 space away? if so, attack.
 				{
 					if(!grid.getPlayer().isInvincible())//invincibility check
-					{
 						killPlayer();
-					}
 				}
 				else
 				{
